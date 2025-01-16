@@ -9,14 +9,14 @@ class BarangController extends Controller
 {
     public function index()
     {
-        $max_data = 5;
+        $max_data = 10;
         $data = Barang::paginate($max_data);  
         return view('barang.index', compact('data'));
     }
 
     public function search(Request $request)
     {
-        $max_data = 5;
+        $max_data = 10;
 
         $data = Barang::where('nama', 'like', '%'. $request->search . '%')->orWhere('jenis', 'like', '%' . $request->search . '%')->paginate($max_data);
 

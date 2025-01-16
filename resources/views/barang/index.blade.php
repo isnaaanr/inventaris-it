@@ -1,221 +1,207 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barang</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-    @include('partials.navbar')
-        <div id="layoutSidenav_content" class="ms-4">
-            <main>
-                @if (session('success'))
-                    <div class="alert alert-success w-auto me-4 mt-3 fade show d-flex justify-content-between">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @endif
-                    @if ($errors->any())
-                    <script>
-                        alert("{{ session('errors')->first() }}");
-                    </script>
-                    @endif
-
-            <div class="mt-3">
-                <h1><center>Daftar Barang</center></h1>
+<x-app-layout>
+    <div class="flex flex-col min-h-screen">
+    <main class="container mx-auto px-8 py-8 bg-white text-gray-800 flex-grow">
+        {{-- Tampilan Success --}}
+        @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+                {{ session('success') }}
+                <button type="button" class="absolute top-0 right-0 px-4 py-3" onclick="this.parentElement.remove()">&times;</button>
             </div>
-            <button type="button" class="btn btn-primary mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#tambahBarangModal">
-                <i class="fa-solid fa-plus"></i>
-                Tambah Barang
-            </button>
+        @endif
 
-                <div class="modal fade" id="tambahBarangModal" tabindex="-1" aria-labelledby="tambahBarangModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="tambahBarangModalLabel">Tambah Data Barang</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="{{ route('barang.store') }}" method="post" enctype="multipart/form-data">
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="nama" class="form-label">Nama</label>
-                                    <input type="text" class="form-control" id="nama" name="nama" required>
-                                </div>
+        {{-- Tampilan Error --}}
+        @if ($errors->any())
+            <script>
+                alert("{{ session('errors')->first() }}");
+            </script>
+        @endif
 
-                                <div class="mb-3">
-                                    <label for="jenis" class="form-label">Jenis</label>
-                                    <select class="form-select" id="inputGroupSelect02" name="jenis">
-                                    <option value="Laptop">Laptop</option>
-                                    <option value="Kamera">Kamera</option>
-                                    <option value="Aksesoris">Aksesoris</option>
-                                    <option value="Proyektor">Proyektor</option>
-                                    <option value="Monitor">Monitor</option>
-                                    <option value="Penyimpanan">Penyimpanan</option>
-                                    <option value="Lainnya">Lainnya</option>
-                                    </select>
-                                </div>
+        <h1 class="text-center text-3xl font-bold m">Daftar Barang</h1>
 
-                                <div class="mb-3">
-                                    <label for="stok" class="form-label">Stok</label>
-                                    <input type="number" class="form-control" id="stok" name="stok" required>
-                                </div>
+        <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" data-modal-target="#tambahBarangModal">
+            <i class="fa-solid fa-plus"></i> Tambah Barang
+        </button>
 
-                                <button type="submit" class="btn btn-primary" name="submit">Tambah</button>
-                            </form>
-                        </div>
-                    </div>
+        <!-- Modal Tambah Barang -->
+        <div class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="tambahBarangModal" tabindex="-1" aria-labelledby="tambahBarangModalLabel" aria-hidden="true">
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                <div class="flex justify-between items-center border-b pb-4">
+                    <h5 class="text-lg font-semibold">Tambah Data Barang</h5>
+                    <button type="button" class="text-gray-500 hover:text-gray-700" data-modal-dismiss>&times;</button>
                 </div>
+                <form action="{{ route('barang.store') }}" method="post" class="mt-4">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
+                        <input type="text" id="nama" name="nama" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="jenis" class="block text-sm font-medium text-gray-700">Jenis</label>
+                        <select id="jenis" name="jenis" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            <option value="Laptop">Laptop</option>
+                            <option value="Kamera">Kamera</option>
+                            <option value="Aksesoris">Aksesoris</option>
+                            <option value="Proyektor">Proyektor</option>
+                            <option value="Monitor">Monitor</option>
+                            <option value="Penyimpanan">Penyimpanan</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="stok" class="block text-sm font-medium text-gray-700">Stok</label>
+                        <input type="number" id="stok" name="stok" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                    </div>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Tambah</button>
+                </form>
             </div>
-           
-    
-        
+        </div>
 
-            <div class="container-fluid">
-                    <table class="table table-borderless text-center" id="datatablesSimple">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Barang</th>
-                                <th>Jenis</th>
-                                <th>Stok</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
+        {{-- Table --}}
+        <div class="overflow-x-auto mt-6">
+            <table class="min-w-full bg-white border border-gray-200 rounded-lg text-center">
+                <thead>
+                    <tr class="bg-gray-100 border-b border-gray-200">
+                        <th class="px-4 py-2">No</th>
+                        <th class="px-4 py-2">Nama Barang</th>
+                        <th class="px-4 py-2">Jenis</th>
+                        <th class="px-4 py-2">Stok</th>
+                        <th class="px-4 py-2">Aksi</th>
+                    </tr>
+                </thead>
                 <tbody>
                     @php
-                        $no = $data->firstItem(); 
+                        $no = $data->firstItem();
                     @endphp
                     @forelse ($data as $item)
-                        <tr>
-                            <td>{{ $no++ }}</td>
-                            <td>{{ $item->nama }}</td>
-                            <td>{{ $item->jenis }}</td>
-                            <td>
+                        <tr class="border-b border-gray-200">
+                            <td class="px-4 py-2">{{ $no++ }}</td>
+                            <td class="px-4 py-2">{{ $item->nama }}</td>
+                            <td class="px-4 py-2">{{ $item->jenis }}</td>
+                            <td class="px-4 py-2">
                                 @if($item->stok > 0)
                                     {{ $item->stok }}
                                 @else
-                                    <p class="text-danger fw-bold">Kosong</p>
+                                    <span class="text-red-600 font-bold">Kosong</span>
                                 @endif
                             </td>
-                            <td class="d-flex justify-content-center align-items-center">
-                                <div class="d-flex gap-2">
-                                    
-                                    <button type="button" class="btn btn-success d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#ubahBarangModal{{ $item->id }}">
+                            <td class="px-4 py-2">
+                                <div class="flex justify-center gap-2">
+                                    <button type="button" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600" data-modal-target="#ubahBarangModal{{ $item->id }}">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </button>
-                            
-                                    <form action="{{ route('barang.delete', ['id'=>$item->id]) }}" method="post" onsubmit="return confirm('yakin akan menghapus data ini?')">
+                                    <form action="{{ route('barang.delete', ['id' => $item->id]) }}" method="post" onsubmit="return confirm('yakin akan menghapus data ini?')">
                                         @csrf
                                         @method('delete')
-                                        <button type="submit" class="btn btn-danger d-flex align-items-center">
+                                        <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </form>
                                 </div>
                             </td>
-                            
-                            
-                            <div class="modal fade" id="ubahBarangModal{{ $item->id }}" tabindex="-1" aria-labelledby="ubahBarangModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="ubahBarangModalLabel">Ubah Data Barang</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="{{ route('barang.update', ['id'=>$item->id]) }}" method="post" enctype="multipart/form-data">
-                                                    @csrf
-                                                    @method('put')
-                                                    <input type="hidden" name="id" value="{{ $item->id }}">
-                                                    <input type="hidden" name="gambarLama" value="{{ $item->gambar }}">
-                            
-                                                    <div class="mb-3">
-                                                        <label for="nama" class="form-label">Nama</label>
-                                                        <input type="text" class="form-control" id="nama" name="nama" required value="{{ $item->nama }}">
-                                                    </div>
-                            
-                                                    <div class="mb-3">
-                                                        <label for="jenis" class="form-label">Jenis</label>
-                                                        <select class="form-select" id="inputGroupSelect02" name="jenis" required value="{{ $item->jenis }}">
-                                                            <option value="Laptop">Laptop</option>
-                                                            <option value="Kamera">Kamera</option>
-                                                            <option value="Aksesoris">Aksesoris</option>
-                                                            <option value="Proyektor">Proyektor</option>
-                                                            <option value="Monitor">Monitor</option>
-                                                            <option value="Penyimpanan">Penyimpanan</option>
-                                                            <option value="Lainnya">Lainnya</option>
-                                                        </select>
-                                                      </div>
 
-                                                    <div class="mb-3">
-                                                        <label for="stok" class="form-label">Stok</label>
-                                                        <input type="number" class="form-control" id="stok" name="stok" required value="{{ $item->stok }}">
-                                                    </div>
-                            
-                                                    <button type="submit" class="btn btn-primary" name="submit">Ubah</button>
-                                                </form>
-                                            </div>
-                                        </div>
+                            <!-- Modal Edit Barang -->
+                            <div class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="ubahBarangModal{{ $item->id }}" tabindex="-1">
+                                <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                                    <div class="flex justify-between items-center border-b pb-4">
+                                        <h5 class="text-lg font-semibold">Ubah Data Barang</h5>
+                                        <button type="button" class="text-gray-500 hover:text-gray-700" onclick="document.getElementById('ubahBarangModal{{ $item->id }}').classList.add('hidden')">&times;</button>
                                     </div>
+                                    <form action="{{ route('barang.update', ['id' => $item->id]) }}" method="post" class="mt-4">
+                                        @csrf
+                                        @method('put')
+                                        <div class="mb-4">
+                                            <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
+                                            <input type="text" id="nama" name="nama" value="{{ $item->nama }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="jenis" class="block text-sm font-medium text-gray-700">Jenis</label>
+                                            <select id="jenis" name="jenis" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                                                <option value="Laptop">Laptop</option>
+                                                <option value="Kamera">Kamera</option>
+                                                <option value="Aksesoris">Aksesoris</option>
+                                                <option value="Proyektor">Proyektor</option>
+                                                <option value="Monitor">Monitor</option>
+                                                <option value="Penyimpanan">Penyimpanan</option>
+                                                <option value="Lainnya">Lainnya</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="stok" class="block text-sm font-medium text-gray-700">Stok</label>
+                                            <input type="number" id="stok" name="stok" value="{{ $item->stok }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                                        </div>
+                                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Ubah</button>
+                                    </form>
                                 </div>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-center">Tidak ada barang</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            <div class="me-5 mt-4">{{ $data->links() }}</div>
+                            </div>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-4">Tidak ada barang</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            <div class="mt-4">{{ $data->links() }}</div>
         </div>
     </main>
-        
-            <footer>
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+
+
+    <footer class="bg-gray-800 text-white py-6 mt-8">
+        <div class="container mx-auto flex flex-col items-center">
+            <p class="text-sm text-center">&copy; 2025 Your Website. All rights reserved.</p>
+            <div class="mt-4 flex space-x-6">
+                <a href="#" class="text-gray-400 hover:text-white" aria-label="Privacy Policy">
+                    Privacy Policy
+                </a>
+                <span class="text-gray-500">&middot;</span>
+                <a href="#" class="text-gray-400 hover:text-white" aria-label="Terms &amp; Conditions">
+                    Terms &amp; Conditions
+                </a>
+            </div>
         </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js">
-    </script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-    <script src="../js/datatables-simple-demo.js"></script>
-</body>
+    </footer>
 
-</html>
+    </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#search').on('keyup', function() {
-            let query = $(this).val(); 
 
-            $.ajax({
-                url: '{{ route('barang.search') }}',  
-                method: 'GET',  
-                data: { search: query },  
-                success: function(response) {
-                    $('#datatablesSimple').html(response);
-                }
+    <style>
+        footer {
+            position: relative;
+            width: 100%;
+            bottom: 0;
+            
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#search').on('keyup', function () {
+                let query = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: '{{ route('barang.search') }}',
+                    data: { query: query },
+                    success: function (data) {
+                        $('tbody').html(data);
+                    }
+                });
             });
         });
-    });
-</script>
+
+        document.querySelectorAll('[data-modal-target]').forEach(button => {
+            button.addEventListener('click', () => {
+                const modalId = button.getAttribute('data-modal-target');
+                document.querySelector(modalId).classList.remove('hidden');
+            });
+        });
+
+        document.querySelectorAll('[data-modal-dismiss]').forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('.fixed');
+                modal.classList.add('hidden');
+            });
+        });
+
+    </script>
+</x-app-layout>

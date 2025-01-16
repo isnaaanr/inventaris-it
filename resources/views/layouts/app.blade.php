@@ -22,7 +22,7 @@
         <div class="min-h-screen">
             
             <!-- Navbar -->
-            <nav class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 dark:bg-gray-800 shadow-lg mb-10 border-b border-gray-200 dark:border-gray-700">
+            <nav class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 dark:bg-gray-800 shadow-lg mb-5 border-b border-gray-200 dark:border-gray-700">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between items-center h-16">
                         <!-- Logo -->
