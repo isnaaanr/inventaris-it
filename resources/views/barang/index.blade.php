@@ -54,6 +54,11 @@
                                     <select class="form-select" id="inputGroupSelect02" name="jenis">
                                     <option value="Laptop">Laptop</option>
                                     <option value="Kamera">Kamera</option>
+                                    <option value="Aksesoris">Aksesoris</option>
+                                    <option value="Proyektor">Proyektor</option>
+                                    <option value="Monitor">Monitor</option>
+                                    <option value="Penyimpanan">Penyimpanan</option>
+                                    <option value="Lainnya">Lainnya</option>
                                     </select>
                                 </div>
 
