@@ -27,7 +27,7 @@
                     @endif
 
             <div class="mt-3">
-                <h1><center>Daftar Barang TES ISNA 1 2 3</center></h1>
+                <h1><center>Daftar Barang TES ISNA 1 2 3 4 5 6 7</center></h1>
             </div>
             <button type="button" class="btn btn-primary mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#tambahBarangModal">
                 <i class="fa-solid fa-plus"></i>
