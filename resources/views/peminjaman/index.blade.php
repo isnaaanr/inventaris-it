@@ -126,165 +126,171 @@
     <script>
         $(document).ready(function(){
             let selectedIndex = -1;
-    
-            $('#namaBarang').on('input', function(){
-                let query = $(this).val();
-                if(query.length > 1) {
-                    $.ajax({
-                        url: '{{ route('barang.autocomplete') }}',
-                        type: 'GET',
-                        data: { query: query },
-                        success: function(data) {
-                            let suggestions = $('#suggestionsBarang');
-                            suggestions.empty().show();
-                            data.forEach(function(item) {
-                                suggestions.append(`<div class="list-group-item list-group-item-action" data-id="${item.id}">${item.nama}</div>`);
-                                selectedIndex = -1;
-                            });
-                        }
-                    });
-                } else {
-                    $('#suggestionsBarang').empty();
-                }
-            });
-    
-            $('#namaBarang').on('keydown', function(e) {
-                let suggestions = $('#suggestionsBarang .list-group-item');
-                if (suggestions.length > 0) {
-                    if (e.key === 'ArrowDown') {
-                        e.preventDefault();
-                        selectedIndex = (selectedIndex + 1) % suggestions.length;
-                    } else if (e.key === 'ArrowUp') {
-                        e.preventDefault();
-                        selectedIndex = (selectedIndex - 1 + suggestions.length) % suggestions.length;
-                    } else if (e.key === 'Enter') {
-                        e.preventDefault();
-                        if (selectedIndex > -1) {
-                            $(this).val(suggestions.eq(selectedIndex).text());
-                            $('#barangId').val(suggestions.eq(selectedIndex).data('id'));
-                            $('#suggestionsBarang').empty().hide();
-                        }
+        $('#namaBarang').on('input', function(){
+            let query = $(this).val();
+            if(query.length > 1) {
+                $.ajax({
+                    url: '{{ route('barang.autocomplete') }}',
+                    type: 'GET',
+                    data: {query: query},
+                    success: function(data) {
+                        let suggestions = $('#suggestionsBarang');
+                        suggestions.empty().show();
+                        data.forEach(function(item) {
+                            suggestions.append(`<div class="list-group-item list-group-item-action" data-id="${item.id}">${item.nama}</div>`);
+                            selectedIndex = -1;
+                        });
                     }
-                    suggestions.removeClass('active');
-                    if (selectedIndex > -1) {
-                        suggestions.eq(selectedIndex).addClass('active');
-                    }
-                }
-            });
-    
-            $(document).on('click', '.list-group-item', function(){
-                $('#namaBarang').val($(this).text());
-                $('#barangId').val($(this).data('id'));
+                });
+            } else {
                 $('#suggestionsBarang').empty();
-            });
-    
-            $(document).on('click', function(e) {
-                if (!$(e.target).closest('#namaBarang, #suggestionsBarang').length) {
-                    $('#suggestionsBarang').hide();
-                }
-            });
-    
-            $('#namaBarang').on('focus', function(){
-                if ($('#suggestionsBarang').children().length > 1) {
-                    $('#suggestionsBarang').show();
-                }
-            });
-    
-            $('#addProductForm').submit(function (event) {
-                event.preventDefault();
-    
-                let namaBarang = $('#namaBarang').val();
-                let jumlahBarang = $('#jumlahBarang').val();
-    
-                $.ajax({
-                    url: '/peminjaman/add/' + namaBarang, 
-                    type: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        namaBarang: namaBarang,
-                        jumlahBarang: jumlahBarang
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            let existingRow = $('#tabel-hasil tbody tr').filter(function () {
-                                return $(this).find('td:eq(1)').text() === response.namaBarang;
-                            });
-    
-                            if (existingRow.length > 0) {
-                                let currentJumlah = parseInt(existingRow.find('td:eq(3) input').val()) || 0;
-                                existingRow.find('td:eq(3) input').val(currentJumlah + parseInt(response.jumlahBarang));
-                            } else {
-                                let newRow = `<tr id="row-${response.id}">
-                                    <td>${response.itemNo}</td>
-                                    <td>${response.namaBarang}</td>
-                                    <td>${response.jenis}</td>
-                                    <td><input type="number" value="${response.jumlahBarang}" min="1" onchange="updateJumlah(${response.id}, this.value)"></td>
-                                    <td>
-                                        <form action="/peminjaman/remove/${response.id}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Hapus</button>
-                                        </form>
-                                    </td>
-                                </tr>`;
-                                $('#tabel-hasil tbody').append(newRow);
-                            }
-    
-                            $('#namaBarang').val('');
-                            $('#jumlahBarang').val('');
-                            $('#suggestionsBarang').empty();
-                            $('#tabel-hasil tbody').find('tr:contains("Tidak ada item")').remove();
-                        } else {
-                            alert(response.message);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(error);
-                    }
-                });
-            });
+            }
         });
-    
-        function updateJumlah(id, jumlah) {
-            fetch(`/peminjaman/update/${id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ jumlah: jumlah })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    alert(data.message);
-                } else {
-                    alert(data.message); 
-                    location.reload();  
+
+    $('#namaBarang').on('keydown', function(e) {
+        let suggestions = $('#suggestionsBarang .list-group-item');
+        if (suggestions.length > 0) {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                selectedIndex = (selectedIndex + 1) % suggestions.length;
+            } 
+            else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                selectedIndex = (selectedIndex - 1 + suggestions.length) % suggestions.length;
+            } 
+            else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (selectedIndex > -1) {
+                    $(this).val(suggestions.eq(selectedIndex).text());
+                    $('#barangId').val(suggestions.eq(selectedIndex).data('id'));
+                    $('#suggestionsBarang').empty().hide();
                 }
-            })
-            .catch(error => alert('Terjadi kesalahan saat memperbarui jumlah barang.'));
+            }
+            suggestions.removeClass('active');
+            if (selectedIndex > -1) {
+                suggestions.eq(selectedIndex).addClass('active');
+            }
         }
-    
-        $(document).ready(function() {
-            $('#search').on('keyup', function() {
-                let query = $(this).val();  
-    
-                if (query === "") {
-                    window.location.reload(); 
-                    return;
-                }
-                $.ajax({
-                    url: '{{ route('peminjaman.search') }}',  
-                    method: 'GET',  
-                    data: { search: query },  
-                    success: function(response) {
-                        $('#tabel-hasil').html(response);
+    });
+
+        
+        $(document).on('click', '.list-group-item', function(){
+            $('#namaBarang').val($(this).text());
+            $('#barangId').val($(this).data('id'));
+            $('#suggestionsBarang').empty();
+        });
+
+        $(document).on('click', function(e) {
+        if (!$(e.target).closest('#namaBarang, #suggestionsBarang').length) {
+            $('#suggestionsBarang').hide();
+        }
+
+        
+        $('#namaBarang').on('focus', function(){
+            if ($('#suggestionsBarang').children().length > 1) {
+                $('#suggestionsBarang').show();
+            }
+        });
+    });
+
+
+        $('#addProductForm').submit(function (event) {
+            event.preventDefault();
+
+            let namaBarang = $('#namaBarang').val();
+            let jumlahBarang = $('#jumlahBarang').val();
+
+            $.ajax({
+                url: '/peminjaman/add/' + namaBarang, 
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    namaBarang: namaBarang,
+                    jumlahBarang: jumlahBarang
+                },
+                success: function (response) {
+                    if (response.success) {
+                        let existingRow = $('#tabel-hasil tbody tr').filter(function () {
+                            return $(this).find('td:eq(1)').text() === response.namaBarang;
+                        });
+
+                        if (existingRow.length > 0) {
+                            let currentJumlah = parseInt(existingRow.find('td:eq(3) input').val()) || 0;
+                            existingRow.find('td:eq(3) input').val(currentJumlah + parseInt(response.jumlahBarang));
+                        } else {
+                            let newRow = `<tr id="row-${barangId}">
+                                <td>${response.itemNo}</td>
+                                <td>${response.namaBarang}</td>
+                                <td>${response.jenis}</td>
+                                <td><input type="number" value="${response.jumlahBarang}" min="1" onchange="updateJumlah(${response.id}, this.value)"></td>
+                                <td>
+                                    <form action="/peminjaman/remove/${response.id}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>`;
+                            $('#tabel-hasil tbody').append(newRow);
+                        }
+
+                        $('#namaBarang').val('');
+                        $('#jumlahBarang').val('');
+                        $('#suggestionsBarang').empty();
+                        $('#tabel-hasil tbody').find('tr:contains("Tidak ada item")').remove();
+                    }else {
+                        alert(response.message);
                     }
-                });
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
             });
         });
-    </script>
-    
+    });
+
+    function updateJumlah(id, jumlah) {
+    fetch(`/peminjaman/update/${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ jumlah: jumlah })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success) {
+            alert(data.message);
+        } else {
+            alert(data.message); 
+            location.reload();  
+        }
+    })
+    .catch(error => alert('Terjadi kesalahan saat memperbarui jumlah barang.'));
+}
+
+
+$(document).ready(function() {
+        $('#search').on('keyup', function() {
+            let query = $(this).val();  
+
+            if (query === "") {
+            window.location.reload(); 
+            return;
+            }
+            $.ajax({
+                url: '{{ route('peminjaman.search') }}',  
+                method: 'GET',  
+                data: { search: query },  
+                success: function(response) {
+                    $('#tabel-hasil').html(response);
+                }
+            });
+            
+        });
+    });
+
+</script>
 </body>
 </html>
