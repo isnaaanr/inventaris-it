@@ -34,14 +34,14 @@
                             <form id="addProductForm" class="space-y-3">
                                 <div>
                                     <label for="namaBarang" class="text-sm font-semibold text-gray-700">Nama Barang</label>
-                                    <input type="text" id="namaBarang" class="w-full px-2 py-1 border border-gray-300 rounded-md text-sm" placeholder="Masukkan nama barang">
+                                    <input type="text" id="namaBarang" class="w-full px-2 py-1 border border-gray-300 rounded-md text-sm" placeholder="Masukkan nama barang" required>
                                     <input type="hidden" id="barangId">
-                                    <div id="suggestionsBarang" class="absolute w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10 hidden"></div>
+                                    <div id="suggestionsBarang" class="absolute w-2/5 bg-white border border-gray-300 rounded-md shadow-lg z-10 hidden overflow-y-auto max-h-40"></div>
                                 </div>
                 
                                 <div>
                                     <label for="jumlahBarang" class="text-sm font-semibold text-gray-700">Jumlah Barang</label>
-                                    <input type="number" id="jumlahBarang" class="w-full px-2 py-1 border border-gray-300 rounded-md text-sm" min="1" placeholder="Masukkan jumlah barang">
+                                    <input type="number" id="jumlahBarang" class="w-full px-2 py-1 border border-gray-300 rounded-md text-sm" min="1" placeholder="Masukkan jumlah barang" required>
                                 </div>
                 
                                 <button type="submit" class="w-full py-1 bg-blue-600 text-white text-sm font-semibold rounded-md hover:bg-blue-700">Tambah Barang</button>
@@ -77,10 +77,10 @@
                                         @endphp
                                         <tr class="border-b">
                                             <td class="px-2 py-1 text-center">{{ $loop->iteration }}</td>
-                                            <td class="px-2 py-1">{{ $item->nama }}</td>
-                                            <td class="px-2 py-1">{{ $item->jenis }}</td>
-                                            <td class="px-2 py-1">
-                                                <input type="number" value="{{ $keranjang[$item->id] }}" min="1" onchange="updateJumlah('{{ $id }}', this.value)" class="w-10 px-2 py-1 border border-gray-300 rounded-md text-xs">
+                                            <td class="px-2 py-1 text-center">{{ $item->nama }}</td>
+                                            <td class="px-2 py-1 text-center">{{ $item->jenis }}</td>
+                                            <td class="px-2 py-1 text-center">
+                                                <input type="number" value="{{ $keranjang[$item->id] }}" min="1" onchange="updateJumlah('{{ $id }}', this.value)" class="w-14 px-2 py-1 border border-gray-300 rounded-md text-xs">
                                             </td>
                                             <td class="px-2 py-1 text-center">
                                                 <form action="{{ route('peminjaman.remove', $id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
@@ -147,8 +147,10 @@
                     let suggestions = $('#suggestionsBarang');
                     suggestions.empty().show();
                     data.forEach(function(item) {
-                        suggestions.append(`<div class="list-group-item list-group-item-action" data-id="${item.id}">${item.nama}</div>`);
+                        suggestions.append(`
+                            <div class="px-3 py-2 bg-white hover:bg-gray-100 cursor-pointer border-b border-gray-300 text-sm text-gray-700 list-group-item list-group-item-action" data-id="${item.id}">${item.nama}</div>`);
                     });
+
                     selectedIndex = -1;
                 }
             });
@@ -218,19 +220,24 @@
                         let currentJumlah = parseInt(existingRow.find('td:eq(3) input').val()) || 0;
                         existingRow.find('td:eq(3) input').val(currentJumlah + parseInt(response.jumlahBarang));
                     } else {
-                        let newRow = `<tr id="row-${barangId}">
-                            <td>${response.itemNo}</td>
-                            <td>${response.namaBarang}</td>
-                            <td>${response.jenis}</td>
-                            <td><input type="number" value="${response.jumlahBarang}" min="1" onchange="updateJumlah(${response.id}, this.value)"></td>
-                            <td>
-                                <form action="/peminjaman/remove/${response.id}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                </form>
-                            </td>
-                        </tr>`;
+                        // Menambahkan row baru dengan Tailwind CSS
+                        let newRow = `
+                            <tr id="row-${response.id}" class="border-b">
+                                <td class="px-2 py-1 text-center">${response.itemNo}</td>
+                                <td class="px-2 py-1 text-center">${response.namaBarang}</td>
+                                <td class="px-2 py-1 text-center">${response.jenis}</td>
+                                <td class="px-2 py-1 text-center">
+                                    <input type="number" value="${response.jumlahBarang}" min="1" onchange="updateJumlah(${response.id}, this.value)" class="w-12 px-2 py-1 border border-gray-300 rounded-md text-xs">
+                                </td>
+                                <td class="px-2 py-1 text-center">
+                                    <form action="/peminjaman/remove/${response.id}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="px-2 py-1 bg-red-600 text-white text-xs font-semibold rounded-md hover:bg-red-700">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        `;
                         $('#tabel-hasil tbody').append(newRow);
                     }
 
@@ -242,6 +249,7 @@
                     alert(response.message);
                 }
             },
+
             error: function (xhr, status, error) {
                 console.log(error);
             }
@@ -292,6 +300,3 @@ $(document).ready(function() {
     });
 
     </script>
-
-</body>
-</html>
