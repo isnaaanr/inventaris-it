@@ -7,12 +7,12 @@
     
         <ul class="flex space-x-4 mt-3 border-b-2">
             <li>
-                <button class="text-blue-500 py-2 px-4 hover:text-blue-700 focus:outline-none" id="sedang-proses-tab" onclick="showSection('sedang-proses-section')">Sedang Proses</button>
+                <button class="text-blue-500 py-2 px-4 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" id="sedang-proses-tab" onclick="showSection('sedang-proses-section')">Sedang Proses</button>
             </li>
             <li>
-                <button class="text-blue-500 py-2 px-4 hover:text-blue-700 focus:outline-none" id="riwayat-tab2" onclick="showSection('riwayat-section')">Riwayat</button>
+                <button class="text-blue-500 py-2 px-4 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" id="riwayat-tab2" onclick="showSection('riwayat-section')">Riwayat</button>
             </li>
-        </ul>
+        </ul>        
     
         <!-- Sedang Proses Section -->
         <div id="sedang-proses-section" class="mt-3">
@@ -21,22 +21,22 @@
                 <p class="text-red-500">Tidak ada peminjaman yang sedang berjalan.</p>
             @else
                 @foreach($peminjamans->where('tanggal_kembali', null) as $peminjaman)
-                    <div class="bg-white shadow-md rounded-lg mb-4 mt-4 p-4 cursor-pointer" onclick="openModal('peminjamanModal{{ $peminjaman->id }}')">
+                    <div class="bg-white shadow-lg rounded-lg mb-4 mt-4 p-4 cursor-pointer border border-gray-300 hover:border-blue-500 transition duration-300 ease-in-out" onclick="openModal('peminjamanModal{{ $peminjaman->id }}')">
                         <div class="flex justify-between items-center">
                             <div>
                                 <h5 class="text-xl font-bold">{{ $peminjaman->keperluan }}</h5>
                                 <p class="text-gray-600">Tanggal Peminjaman: {{ $peminjaman->tanggal_peminjaman }}</p>
                                 <p class="text-red-500 font-bold">Belum Dikembalikan</p>
                             </div>
-    
+        
                             <div class="flex flex-row">
                                 <button type="button" class="bg-blue-500 text-white py-2 px-4 rounded mt-2 transition duration-300 transform hover:bg-blue-600 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400" onclick="openModal('peminjamanModal{{ $peminjaman->id }}')">
-                                    Detail
-                                </button>                                
+                                    <i class="fas fa-info-circle mr-2"></i> Detail
+                                </button>                                                               
                             </div>
                         </div>
                     </div>
-    
+        
                     <!-- Modal Detail Peminjaman -->
                     <div id="peminjamanModal{{ $peminjaman->id }}" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <div class="bg-white rounded-lg shadow-xl w-11/12 max-w-4xl">
@@ -55,7 +55,7 @@
                                         <span class="text-red-500 font-bold">Belum Dikembalikan</span>
                                     @endif
                                 </p>
-    
+        
                                 <h4 class="text-lg font-semibold mt-4">Barang yang Dipinjam:</h4>
                                 <table class="w-full table-auto mt-4 border-collapse">
                                     <thead>
@@ -73,26 +73,27 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-    
+        
                                 <div class="flex mt-4 space-x-3">
                                     @if (is_null($peminjaman->tanggal_kembali))
                                         <form action="{{ route('riwayat.pengembalian', $peminjaman->id) }}" method="GET" onsubmit="return confirm('Yakin ingin menyelesaikan peminjaman ini?')">
                                             @csrf
                                             <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded transition duration-300 transform hover:bg-blue-600 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-                                                Kembalikan
+                                                <i class="fas fa-undo mr-2"></i> Kembalikan
                                             </button>
                                         </form>
                                     @endif
                                     <a href="{{ route('riwayat.cetak-pdf', $peminjaman->id) }}" class="bg-green-500 text-white py-2 px-4 rounded transition duration-300 transform hover:bg-green-600 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400">
-                                        Cetak PDF
+                                        <i class="fas fa-file-pdf mr-2"></i> Cetak PDF
                                     </a>
-                                </div>                                
+                                </div>                                                                 
                             </div>
                         </div>
                     </div>
                 @endforeach
             @endif
         </div>
+        
     
         <!-- Riwayat Section -->
         <div id="riwayat-section" class="mt-3 hidden">
@@ -101,27 +102,29 @@
                 <p class="text-red-500">Tidak ada riwayat peminjaman.</p>
             @else
                 @foreach($peminjamans->where('tanggal_kembali', '!=', null) as $peminjaman)
-                    <div class="bg-white shadow-md rounded-lg mb-4 mt-4 p-4">
+                    <div class="bg-white shadow-lg rounded-lg mb-4 mt-4 p-4 border border-gray-300 hover:border-blue-500 transition duration-300 ease-in-out">
                         <div class="flex justify-between items-center">
                             <div>
                                 <h5 class="text-xl font-bold">{{ $peminjaman->keperluan }}</h5>
                                 <p class="text-gray-600">Tanggal Peminjaman: {{ $peminjaman->tanggal_peminjaman }}</p>
                                 <p class="text-gray-600">Tanggal Kembali: {{ $peminjaman->tanggal_kembali }}</p>
                             </div>
-    
+        
                             <div class="flex flex-row">
-                                <button type="button" class="bg-blue-500 text-white py-2 px-4 rounded mt-2 transition duration-300 transform hover:bg-blue-600 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 mr-4" onclick="openModal('peminjamanModal{{ $peminjaman->id }}')">Detail</button>
-                                <form action="{{ route('riwayat.delete', $peminjaman->id) }}?section=riwayat-section" method="POST">
+                                <button type="button" class="bg-blue-500 text-white py-2 px-4 rounded mt-2 transition duration-300 transform hover:bg-blue-600 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 mr-4" onclick="setTimeout(function() { openModal('peminjamanModal{{ $peminjaman->id }}'); }, 100);">
+                                    <i class="fas fa-info-circle mr-2"></i> Detail
+                                </button>                                
+                                <form action="{{ route('riwayat.delete', $peminjaman->id) }}?section=riwayat-section" method="POST" onsubmit="event.stopPropagation();">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded mt-2 transition duration-300 transform hover:bg-red-600 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400" onclick="return confirm('Yakin ingin menghapus riwayat ini?')">
-                                        Hapus
+                                        <i class="fas fa-trash-alt mr-2"></i> Hapus
                                     </button>                                    
-                                </form>
-                            </div>
+                                </form>                                
+                            </div>                            
                         </div>
                     </div>
-    
+        
                     <!-- Modal Detail Peminjaman -->
                     <div id="peminjamanModal{{ $peminjaman->id }}" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <div class="bg-white rounded-lg shadow-xl w-11/12 max-w-4xl">
@@ -140,7 +143,7 @@
                                         <span class="text-red-500 font-bold">Belum Dikembalikan</span>
                                     @endif
                                 </p>
-    
+        
                                 <h4 class="text-lg font-semibold mt-4">Barang yang Dipinjam:</h4>
                                 <table class="w-full table-auto mt-4 border-collapse">
                                     <thead>
@@ -152,30 +155,34 @@
                                     <tbody>
                                         @foreach ($peminjaman->keranjang as $keranjang)
                                             <tr>
-                                                <td class="border px-4 py-2">{{ $keranjang->barang->nama }}</td>
-                                                <td class="border px-4 py-2">{{ $keranjang->jumlah_peminjaman }}</td>
+                                                <td class="border px-4 py-2 text-center">{{ $keranjang->barang->nama }}</td>
+                                                <td class="border px-4 py-2 text-center">{{ $keranjang->jumlah_peminjaman }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-    
-                                <div class="flex mt-4">
+        
+                                <div class="flex mt-4 space-x-3">
                                     @if (is_null($peminjaman->tanggal_kembali))
                                         <form action="{{ route('riwayat.pengembalian', $peminjaman->id) }}" method="GET" onsubmit="return confirm('Yakin ingin menyelesaikan peminjaman ini?')">
                                             @csrf
-                                            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded mr-3">Kembalikan</button>
+                                            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded transition duration-300 transform hover:bg-blue-600 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                                                <i class="fas fa-undo mr-2"></i> Kembalikan
+                                            </button>
                                         </form>
                                     @endif
                                     <a href="{{ route('riwayat.cetak-pdf', $peminjaman->id) }}" class="bg-green-500 text-white py-2 px-4 rounded transition duration-300 transform hover:bg-green-600 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400">
-                                        Cetak PDF
-                                    </a>                                    
-                                </div>
+                                        <i class="fas fa-file-pdf mr-2"></i> Cetak PDF
+                                    </a>
+                                </div>                                                                 
                             </div>
                         </div>
                     </div>
                 @endforeach
             @endif
         </div>
+        
+        
     </div>
 
     <script>
