@@ -227,7 +227,7 @@
                                 <td class="px-2 py-1 text-center">${response.namaBarang}</td>
                                 <td class="px-2 py-1 text-center">${response.jenis}</td>
                                 <td class="px-2 py-1 text-center">
-                                    <input type="number" value="${response.jumlahBarang}" min="1" onchange="updateJumlah(${response.id}, this.value)" class="w-12 px-2 py-1 border border-gray-300 rounded-md text-xs">
+                                    <input type="number" value="${response.jumlahBarang}" min="1" onchange="updateJumlah(${response.id}, this.value)" class="w-14 px-2 py-1 border border-gray-300 rounded-md text-xs">
                                 </td>
                                 <td class="px-2 py-1 text-center">
                                     <form action="/peminjaman/remove/${response.id}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
