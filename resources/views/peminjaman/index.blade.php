@@ -2,123 +2,121 @@
     <div id="layoutSidenav_content" class="ms-4">
         <main>
             @if (session('success'))
-            <div class="bg-green-500 text-white px-2 py-1 rounded-md shadow-sm mb-2 flex justify-between items-center" role="alert">
+            <div class="bg-green-500 text-white px-4 py-2 rounded-md mb-3 flex justify-between items-center font-semibold max-w-md mx-auto shadow-md" role="alert">
                 <span>{{ session('success') }}</span>
-                <button type="button" class="text-white hover:text-gray-200" onclick="this.parentElement.style.display='none'">
+                <button type="button" class="text-white hover:text-gray-300" onclick="this.parentElement.style.display='none'">
                     &times;
                 </button>
             </div>
+            
             @endif
-
+    
             @if ($errors->any())
-            <div class="bg-red-500 text-white px-2 py-1 rounded-md shadow-sm mb-2 flex justify-between items-center" role="alert">
-                <ul class="text-xs">
+            <div class="bg-red-500 text-white px-4 py-3 rounded-md mb-3 flex justify-between items-start font-semibold max-w-md mx-auto shadow-md" role="alert">
+                <ul class="text-xs space-y-1">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-                <button type="button" class="text-white hover:text-gray-200" onclick="this.parentElement.style.display='none'">
+                <button type="button" class="text-white hover:text-gray-300" onclick="this.parentElement.style.display='none'">
                     &times;
                 </button>
-            </div>
+            </div>            
             @endif
-
-            <div class="container mx-auto px-2">
-
-                <div class="flex space-x-4 mb-4">
-                    <!-- Form Input Kiri -->
-                    <div class="flex-1">
-                        <div class="card shadow-lg rounded-md p-3 bg-white h-full">
-                            <h1 class="text-md font-semibold text-gray-800 text-center mb-2">Peminjaman Barang</h1>
-                
+    
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-3 gap-4">
+                    <!-- Form Input -->
+                    <div class="col-span-1 space-y-4">
+                        <div class="border-2 border-gray-400 rounded-lg p-5 bg-white">
+                            <h1 class="text-lg font-bold text-gray-800 text-center mb-3">Peminjaman Barang</h1>
                             <form id="addProductForm" class="space-y-3">
                                 <div>
-                                    <label for="namaBarang" class="text-sm font-semibold text-gray-700">Nama Barang</label>
-                                    <input type="text" id="namaBarang" class="w-full px-2 py-1 border border-gray-300 rounded-md text-sm" placeholder="Masukkan nama barang" required>
+                                    <label for="namaBarang" class="text-sm font-bold text-gray-700">Nama Barang</label>
+                                    <input type="text" id="namaBarang" class="w-full px-3 py-2 border border-gray-400 rounded-md text-sm font-medium" placeholder="Masukkan nama barang" required>
                                     <input type="hidden" id="barangId">
-                                    <div id="suggestionsBarang" class="absolute w-2/5 bg-white border border-gray-300 rounded-md shadow-lg z-10 hidden overflow-y-auto max-h-40"></div>
+                                    <div id="suggestionsBarang" class="absolute w-1/5 bg-white border border-gray-400 rounded-md z-10 hidden overflow-y-auto max-h-40"></div>
                                 </div>
-                
                                 <div>
-                                    <label for="jumlahBarang" class="text-sm font-semibold text-gray-700">Jumlah Barang</label>
-                                    <input type="number" id="jumlahBarang" class="w-full px-2 py-1 border border-gray-300 rounded-md text-sm" min="1" placeholder="Masukkan jumlah barang" required>
+                                    <label for="jumlahBarang" class="text-sm font-bold text-gray-700">Jumlah Barang</label>
+                                    <input type="number" id="jumlahBarang" class="w-full px-3 py-2 border border-gray-400 rounded-md text-sm font-medium" min="1" placeholder="Masukkan jumlah barang" required>
                                 </div>
-                
-                                <button type="submit" class="w-full py-1 bg-blue-600 text-white text-sm font-semibold rounded-md hover:bg-blue-700">Tambah Barang</button>
+                                <button type="submit" class="w-full py-2 bg-blue-700 text-white text-sm font-bold rounded-md hover:bg-blue-800">Tambah Barang</button>
+                            </form>
+                        </div>
+    
+                        <div class="border-2 border-gray-400 rounded-lg p-5 bg-white">
+                            <h1 class="text-lg font-bold text-gray-800 text-center mb-3">Detail Peminjaman</h1>
+                            <form action="{{ route('peminjaman.checkout') }}" method="POST" class="space-y-3">
+                                @csrf
+                                <div>
+                                    <label for="keperluan" class="text-sm font-bold text-gray-700">Keperluan</label>
+                                    <input type="text" class="w-full px-3 py-2 border border-gray-400 rounded-md text-sm font-medium" id="keperluan" name="keperluan" required>
+                                </div>
+                                <div>
+                                    <label for="tempat" class="text-sm font-bold text-gray-700">Tempat</label>
+                                    <input type="text" class="w-full px-3 py-2 border border-gray-400 rounded-md text-sm font-medium" id="tempat" name="tempat" required>
+                                </div>
+                                <div>
+                                    <label for="tanggal" class="text-sm font-bold text-gray-700">Tanggal Penggunaan</label>
+                                    <input type="date" class="w-full px-3 py-2 border border-gray-400 rounded-md text-sm font-medium" id="tanggal" name="tanggal" required>
+                                </div>
+                                <button type="submit" class="w-full py-2 bg-indigo-700 text-white text-sm font-bold rounded-md hover:bg-indigo-800">Pinjam Barang</button>
                             </form>
                         </div>
                     </div>
-                
+    
                     <!-- Tabel Kanan -->
-                    <div class="flex-1 h-full">
-                        <div class="card shadow-lg rounded-md p-3 bg-white h-full">
-                            <table class="min-w-full text-xs" id="tabel-hasil">
-                                <thead class="bg-indigo-600 text-white">
-                                    <tr>
-                                        <th class="px-2 py-1">No</th>
-                                        <th class="px-2 py-1">Nama Barang</th>
-                                        <th class="px-2 py-1">Jenis</th>
-                                        <th class="px-2 py-1">Jumlah</th>
-                                        <th class="px-2 py-1">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white text-gray-800">
-                                    @php
-                                        $keranjang = session()->get('keranjang', []);
-                                    @endphp
-                                    @if(empty($keranjang))
-                                    <tr>
-                                        <td colspan="5" class="text-center px-2 py-1 text-gray-400">Tidak ada item</td>
-                                    </tr>
-                                    @else
-                                    @foreach($keranjang as $id => $jumlah)
-                                        @php
-                                            $item = \App\Models\Barang::find($id);
-                                        @endphp
-                                        <tr class="border-b">
-                                            <td class="px-2 py-1 text-center">{{ $loop->iteration }}</td>
-                                            <td class="px-2 py-1 text-center">{{ $item->nama }}</td>
-                                            <td class="px-2 py-1 text-center">{{ $item->jenis }}</td>
-                                            <td class="px-2 py-1 text-center">
-                                                <input type="number" value="{{ $keranjang[$item->id] }}" min="1" onchange="updateJumlah('{{ $id }}', this.value)" class="w-14 px-2 py-1 border border-gray-300 rounded-md text-xs">
-                                            </td>
-                                            <td class="px-2 py-1 text-center">
-                                                <form action="{{ route('peminjaman.remove', $id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="px-2 py-1 bg-red-600 text-white text-xs font-semibold rounded-md hover:bg-red-700">Hapus</button>
-                                                </form>
-                                            </td>
+                    <div class="col-span-2 h-full">
+                        <div class="border-2 border-gray-400 rounded-lg p-5 bg-white h-full">
+                            <h1 class="text-lg font-bold text-gray-800 text-center mb-3">Daftar Barang Dipinjam</h1>
+                            <div class="overflow-y-auto max-h-[500px]">
+                                <table class="min-w-full text-xs border border-gray-400 rounded-md" id="tabel-hasil">
+                                    <thead class="bg-indigo-700 text-white">
+                                        <tr>
+                                            <th class="px-4 py-2">No</th>
+                                            <th class="px-4 py-2">Nama Barang</th>
+                                            <th class="px-4 py-2">Jenis</th>
+                                            <th class="px-4 py-2">Jumlah</th>
+                                            <th class="px-4 py-2">Aksi</th>
                                         </tr>
-                                    @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody class="bg-white text-gray-800">
+                                        @php
+                                            $keranjang = session()->get('keranjang', []);
+                                        @endphp
+                                        @if(empty($keranjang))
+                                        <tr>
+                                            <td colspan="5" class="text-center px-4 py-2 text-gray-400">Tidak ada item</td>
+                                        </tr>
+                                        @else
+                                        @foreach($keranjang as $id => $jumlah)
+                                            @php
+                                                $item = \App\Models\Barang::find($id);
+                                            @endphp
+                                            <tr class="border-b">
+                                                <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
+                                                <td class="px-4 py-2 text-center">{{ $item->nama }}</td>
+                                                <td class="px-4 py-2 text-center">{{ $item->jenis }}</td>
+                                                <td class="px-4 py-2 text-center">
+                                                    <input type="number" value="{{ $keranjang[$item->id] }}" min="1" onchange="updateJumlah('{{ $id }}', this.value)" class="w-16 px-2 py-1 border border-gray-400 rounded-md text-xs font-medium">
+                                                </td>
+                                                <td class="px-4 py-2 text-center">
+                                                    <form action="{{ route('peminjaman.remove', $id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="px-3 py-1 bg-red-700 text-white text-xs font-bold rounded-md hover:bg-red-800">Hapus</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-
-                
-
-                <!-- Form Keperluan -->
-                <div class="card shadow-sm rounded-md p-3 bg-white">
-                    <form action="{{ route('peminjaman.checkout') }}" method="POST" class="space-y-3">
-                        @csrf
-                        <div>
-                            <label for="keperluan" class="text-sm font-semibold text-gray-700">Keperluan</label>
-                            <input type="text" class="w-full px-2 py-1 border border-gray-300 rounded-md text-sm" id="keperluan" name="keperluan" required>
-                        </div>
-                        <div>
-                            <label for="tempat" class="text-sm font-semibold text-gray-700">Tempat</label>
-                            <input type="text" class="w-full px-2 py-1 border border-gray-300 rounded-md text-sm" id="tempat" name="tempat" required>
-                        </div>
-                        <div>
-                            <label for="tanggal" class="text-sm font-semibold text-gray-700">Tanggal Penggunaan</label>
-                            <input type="date" class="w-full px-2 py-1 border border-gray-300 rounded-md text-sm" id="tanggal" name="tanggal" required>
-                        </div>
-                        <button type="submit" class="w-full py-1 bg-indigo-600 text-white text-sm font-semibold rounded-md hover:bg-indigo-700">Pinjam Barang</button>
-                    </form>
+                    
                 </div>
             </div>
         </main>
@@ -223,17 +221,17 @@
                         // Menambahkan row baru dengan Tailwind CSS
                         let newRow = `
                             <tr id="row-${response.id}" class="border-b">
-                                <td class="px-2 py-1 text-center">${response.itemNo}</td>
-                                <td class="px-2 py-1 text-center">${response.namaBarang}</td>
-                                <td class="px-2 py-1 text-center">${response.jenis}</td>
-                                <td class="px-2 py-1 text-center">
-                                    <input type="number" value="${response.jumlahBarang}" min="1" onchange="updateJumlah(${response.id}, this.value)" class="w-14 px-2 py-1 border border-gray-300 rounded-md text-xs">
+                                <td class="px-4 py-2 text-center">${response.itemNo}</td>
+                                <td class="px-4 py-2 text-center">${response.namaBarang}</td>
+                                <td class="px-4 py-2 text-center">${response.jenis}</td>
+                                <td class="px-4 py-2 text-center">
+                                    <input type="number" value="${response.jumlahBarang}" min="1" onchange="updateJumlah(${response.id}, this.value)" class="w-16 px-2 py-1 border border-gray-400 rounded-md text-xs font-medium">
                                 </td>
-                                <td class="px-2 py-1 text-center">
+                                <td class="px-4 py-2 text-center">
                                     <form action="/peminjaman/remove/${response.id}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="px-2 py-1 bg-red-600 text-white text-xs font-semibold rounded-md hover:bg-red-700">Hapus</button>
+                                        <button type="submit" class="px-3 py-1 bg-red-700 text-white text-xs font-bold rounded-md hover:bg-red-800">Hapus</button>
                                     </form>
                                 </td>
                             </tr>

@@ -83,30 +83,6 @@
         </div>
     </div>
 
-    <footer class="bg-gray-800 text-white py-6 mt-8">
-        <div class="container mx-auto flex flex-col items-center">
-            <p class="text-sm text-center">&copy; 2025 Your Website. All rights reserved.</p>
-            <div class="mt-4 flex space-x-6">
-                <a href="#" class="text-gray-400 hover:text-white" aria-label="Privacy Policy">
-                    Privacy Policy
-                </a>
-                <span class="text-gray-500">&middot;</span>
-                <a href="#" class="text-gray-400 hover:text-white" aria-label="Terms &amp; Conditions">
-                    Terms &amp; Conditions
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <style>
-        footer {
-            position: relative;
-            width: 100%;
-            bottom: 0;
-            
-        }
-    </style>
-    
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             const ctx = document.getElementById('inventoryChart').getContext('2d');

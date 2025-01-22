@@ -49,7 +49,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="stok" class="block text-sm font-medium text-gray-700">Stok</label>
-                        <input type="number" id="stok" name="stok" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                        <input type="number" id="stok" min="1" name="stok" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
                     </div>
                     <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Tambah</button>
                 </form>
@@ -144,34 +144,7 @@
             <div class="mt-4">{{ $data->links() }}</div>
         </div>
     </main>
-
-
-    <footer class="bg-gray-800 text-white py-6 mt-8">
-        <div class="container mx-auto flex flex-col items-center">
-            <p class="text-sm text-center">&copy; 2025 Your Website. All rights reserved.</p>
-            <div class="mt-4 flex space-x-6">
-                <a href="#" class="text-gray-400 hover:text-white" aria-label="Privacy Policy">
-                    Privacy Policy
-                </a>
-                <span class="text-gray-500">&middot;</span>
-                <a href="#" class="text-gray-400 hover:text-white" aria-label="Terms &amp; Conditions">
-                    Terms &amp; Conditions
-                </a>
-            </div>
-        </div>
-    </footer>
-
     </div>
-
-
-    <style>
-        footer {
-            position: relative;
-            width: 100%;
-            bottom: 0;
-            
-        }
-    </style>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
