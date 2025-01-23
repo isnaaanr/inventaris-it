@@ -22,12 +22,14 @@
             <i class="fa-solid fa-plus"></i> Tambah Barang
         </button>
 
+        <input type="text" id="search" class="border p-2 rounded w-full" placeholder="Cari barang...">
+
         <!-- Modal Tambah Barang -->
         <div class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="tambahBarangModal" tabindex="-1" aria-labelledby="tambahBarangModalLabel" aria-hidden="true">
             <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
                 <div class="flex justify-between items-center border-b pb-4">
                     <h5 class="text-lg font-semibold">Tambah Data Barang</h5>
-                    <button type="button" class="text-gray-500 hover:text-gray-700" data-modal-dismiss>&times;</button>
+                    <button type="button" class="text-gray-500 hover:text-gray-700 text-2xl px-4 py-2" data-modal-dismiss>&times;</button>
                 </div>
                 <form action="{{ route('barang.store') }}" method="post" class="mt-4">
                     @csrf
@@ -104,7 +106,7 @@
                                 <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
                                     <div class="flex justify-between items-center border-b pb-4">
                                         <h5 class="text-lg font-semibold">Ubah Data Barang</h5>
-                                        <button type="button" class="text-gray-500 hover:text-gray-700" onclick="document.getElementById('ubahBarangModal{{ $item->id }}').classList.add('hidden')">&times;</button>
+                                        <button type="button" class="text-gray-500 hover:text-gray-700 text-2xl px-4 py-2" onclick="document.getElementById('ubahBarangModal{{ $item->id }}').classList.add('hidden')">&times;</button>
                                     </div>
                                     <form action="{{ route('barang.update', ['id' => $item->id]) }}" method="post" class="mt-4">
                                         @csrf
@@ -116,13 +118,9 @@
                                         <div class="mb-4">
                                             <label for="jenis" class="block text-sm font-medium text-gray-700">Jenis</label>
                                             <select id="jenis" name="jenis" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-                                                <option value="Laptop">Laptop</option>
-                                                <option value="Kamera">Kamera</option>
-                                                <option value="Aksesoris">Aksesoris</option>
-                                                <option value="Proyektor">Proyektor</option>
-                                                <option value="Monitor">Monitor</option>
-                                                <option value="Penyimpanan">Penyimpanan</option>
-                                                <option value="Lainnya">Lainnya</option>
+                                                @foreach(['Laptop', 'Kamera', 'Aksesoris', 'Proyektor', 'Monitor', 'Penyimpanan', 'Lainnya'] as $jenis)
+                                                    <option value="{{ $jenis }}" {{ $item->jenis == $jenis ? 'selected' : '' }}>{{ $jenis }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="mb-4">

@@ -33,7 +33,7 @@
                             <div class="bg-white rounded-lg shadow-xl w-11/12 max-w-4xl">
                                 <div class="flex justify-between items-center p-4 border-b">
                                     <h5 class="text-xl font-semibold">Detail Peminjaman</h5>
-                                    <button type="button" class="text-gray-500" onclick="closeModal('peminjamanModal{{ $peminjaman->id }}')">&times;</button>
+                                    <button type="button" class="text-gray-500 hover:text-gray-700 text-2xl px-4 py-2" onclick="closeModal('peminjamanModal{{ $peminjaman->id }}')">&times;</button>
                                 </div>
                                 <div class="p-6">
                                     <p><strong>Keperluan:</strong> {{ $peminjaman->keperluan }}</p>
@@ -117,7 +117,7 @@
                             <div class="bg-white rounded-lg shadow-xl w-11/12 max-w-4xl">
                                 <div class="flex justify-between items-center p-4 border-b">
                                     <h5 class="text-xl font-semibold">Detail Peminjaman</h5>
-                                    <button type="button" class="text-gray-500" onclick="closeModal('peminjamanModal{{ $peminjaman->id }}')">&times;</button>
+                                    <button type="button" class="text-gray-500 hover:text-gray-700 text-2xl px-4 py-2" onclick="closeModal('peminjamanModal{{ $peminjaman->id }}')">&times;</button>
                                 </div>
                                 <div class="p-6">
                                     <p><strong>Keperluan:</strong> {{ $peminjaman->keperluan }}</p>
