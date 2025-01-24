@@ -69,7 +69,15 @@
                     <!-- Tabel Kanan -->
                     <div class="col-span-2 h-full">
                         <div class="border-2 border-gray-400 rounded-lg p-5 bg-white h-full">
-                            <h1 class="text-lg font-bold text-gray-800 text-center mb-3">Daftar Barang Dipinjam</h1>
+
+                            <!-- Input Pencarian -->      
+                            <div class="flex justify-between items-center mb-4">
+                                <h1 class="text-lg font-semibold text-gray-800">Daftar Barang Dipinjam</h1>
+                                <input type="text" id="searchTable" 
+                                    class="border w-72 border-gray-300 rounded-md p-2 text-sm focus:ring-1 focus:ring-blue-400 focus:border-blue-400 transition duration-150 ease-in-out text-center" 
+                                    placeholder="Cari barang...">
+                            </div>
+                            
                             <div class="overflow-y-auto max-h-[500px]">
                                 <table class="min-w-full text-xs border border-gray-400 rounded-md" id="tabel-hasil">
                                     <thead class="bg-indigo-700 text-white">
@@ -96,8 +104,8 @@
                                             @endphp
                                             <tr class="border-b">
                                                 <td class="px-4 py-2 text-center">{{ $loop->iteration }}</td>
-                                                <td class="px-4 py-2 text-center">{{ $item->nama }}</td>
-                                                <td class="px-4 py-2 text-center">{{ $item->jenis }}</td>
+                                                <td class="px-4 py-2 text-center nama-barang">{{ $item->nama }}</td>
+                                                <td class="px-4 py-2 text-center jenis-barang">{{ $item->jenis }}</td>
                                                 <td class="px-4 py-2 text-center">
                                                     <input type="number" value="{{ $keranjang[$item->id] }}" min="1" onchange="updateJumlah('{{ $id }}', this.value)" class="w-16 px-2 py-1 border border-gray-400 rounded-md text-xs font-medium">
                                                 </td>
@@ -114,6 +122,7 @@
                                     </tbody>
                                 </table>
                             </div>
+
                         </div>
                     </div>
                     
@@ -131,6 +140,56 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+
+    $(document).ready(function() {
+        $('#search').on('keyup', function() {
+            let query = $(this).val();  
+
+            if (query === "") {
+            window.location.reload(); 
+            return;
+            }
+            $.ajax({
+                url: '{{ route('peminjaman.search') }}',  
+                method: 'GET',  
+                data: { search: query },  
+                success: function(response) {
+                    $('#tabel-hasil').html(response);
+                }
+            });
+            
+        });
+    });
+
+    $(document).ready(function() {
+        $('#searchTable').on('keyup', function() {
+            let value = $(this).val().toLowerCase();  // Ambil nilai input pencarian
+
+            $('#tabel-hasil tbody tr').each(function() {
+                let namaBarang = $(this).find('.nama-barang').text().toLowerCase();
+                let jenisBarang = $(this).find('.jenis-barang').text().toLowerCase();
+
+                if (namaBarang.includes(value) || jenisBarang.includes(value)) {
+                    $(this).show();  // Tampilkan baris jika cocok
+                } else {
+                    $(this).hide();  // Sembunyikan baris jika tidak cocok
+                }
+            });
+
+            // Jika semua baris tersembunyi, tampilkan pesan "Tidak ada hasil"
+            let visibleRows = $('#tabel-hasil tbody tr:visible').length;
+            if (visibleRows === 0) {
+                if ($('#no-results').length === 0) {
+                    $('#tabel-hasil tbody').append(
+                        `<tr id="no-results"><td colspan="5" class="text-center px-4 py-2 text-gray-400">Tidak ada hasil ditemukan</td></tr>`
+                    );
+                }
+            } else {
+                $('#no-results').remove();
+            }
+        });
+    });
+
     $(document).ready(function(){
     let selectedIndex = -1;
 
@@ -275,26 +334,5 @@
     })
     .catch(error => alert('Terjadi kesalahan saat memperbarui jumlah barang.'));
 }
-
-
-$(document).ready(function() {
-        $('#search').on('keyup', function() {
-            let query = $(this).val();  
-
-            if (query === "") {
-            window.location.reload(); 
-            return;
-            }
-            $.ajax({
-                url: '{{ route('peminjaman.search') }}',  
-                method: 'GET',  
-                data: { search: query },  
-                success: function(response) {
-                    $('#tabel-hasil').html(response);
-                }
-            });
-            
-        });
-    });
 
     </script>
