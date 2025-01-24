@@ -22,8 +22,6 @@
             <i class="fa-solid fa-plus"></i> Tambah Barang
         </button>
 
-        <input type="text" id="search" class="border p-2 rounded w-full" placeholder="Cari barang...">
-
         <!-- Modal Tambah Barang -->
         <div class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="tambahBarangModal" tabindex="-1" aria-labelledby="tambahBarangModalLabel" aria-hidden="true">
             <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
@@ -141,6 +139,7 @@
             </table>
             <div class="mt-4">{{ $data->links() }}</div>
         </div>
+        
     </main>
     </div>
 
@@ -175,4 +174,5 @@
         });
 
     </script>
+    @livewireScripts
 </x-app-layout>
