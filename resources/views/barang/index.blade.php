@@ -145,6 +145,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        
         $(document).ready(function () {
             $('#search').on('keyup', function () {
                 let query = $(this).val();
@@ -174,5 +175,4 @@
         });
 
     </script>
-    @livewireScripts
 </x-app-layout>
