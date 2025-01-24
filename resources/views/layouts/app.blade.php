@@ -98,14 +98,17 @@
         </div>
 
         <script>
-            document.getElementById('menu-toggle').addEventListener('click', () => {
+            document.getElementById('menu-toggle')?.addEventListener('click', () => {
                 const menu = document.getElementById('mobile-menu');
-                menu.classList.toggle('hidden');
+                if (menu) {
+                    menu.classList.toggle('hidden');
+                }
             });
 
             function confirmLogout(event) {
-            return confirm("Apakah Anda yakin ingin logout?");
-        }
+                return confirm("Apakah Anda yakin ingin logout?");
+            }
+
         </script>
     </body>
 </html>

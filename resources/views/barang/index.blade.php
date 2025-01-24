@@ -145,20 +145,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        
-        $(document).ready(function () {
-            $('#search').on('keyup', function () {
-                let query = $(this).val();
-                $.ajax({
-                    type: 'GET',
-                    url: '{{ route('barang.search') }}',
-                    data: { query: query },
-                    success: function (data) {
-                        $('tbody').html(data);
-                    }
-                });
-            });
-        });
 
         document.querySelectorAll('[data-modal-target]').forEach(button => {
             button.addEventListener('click', () => {
