@@ -17,10 +17,12 @@ class BarangController extends Controller
     public function search(Request $request)
     {
         $max_data = 10;
-
-        $data = Barang::where('nama', 'like', '%'. $request->search . '%')->orWhere('jenis', 'like', '%' . $request->search . '%')->paginate($max_data);
-
-        return view('barang.searchbarang', compact('data'))->render();
+        $search = $request->input('search');
+        $data = Barang::where('nama', 'like', '%' . $search . '%')
+                      ->orWhere('jenis', 'like', '%' . $search . '%')
+                      ->paginate($max_data);
+    
+        return view('barang.index', compact('data'));
     }
 
     public function store(Request $request){

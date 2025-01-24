@@ -18,9 +18,22 @@
 
         <h1 class="text-center text-3xl font-bold m">Daftar Barang</h1>
 
-        <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" data-modal-target="#tambahBarangModal">
-            <i class="fa-solid fa-plus"></i> Tambah Barang
-        </button>
+        <div class="flex justify-between items-center mb-4">
+            {{-- Form Pencarian --}}
+            <form action="{{ route('barang.search') }}" method="GET" class="flex items-center space-x-2">
+                <input type="text" name="search" class="border w-80 border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out" placeholder="Cari Barang..." value="{{ request('search') }}">
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out">
+                    Cari
+                </button>
+            </form>
+        
+            {{-- Tombol Tambah Barang --}}
+            <button type="button" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out" data-modal-target="#tambahBarangModal">
+                <i class="fa-solid fa-plus"></i> Tambah Barang
+            </button>
+        </div>
+        
+        
 
         <!-- Modal Tambah Barang -->
         <div class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="tambahBarangModal" tabindex="-1" aria-labelledby="tambahBarangModalLabel" aria-hidden="true">
