@@ -102,6 +102,14 @@
                   <form action="{{ route('peminjaman.checkout') }}" method="POST">
                     @csrf
                     <div class="mb-3">
+                        <label for="nama_peminjam" class="form-label">Nama Peminjam</label>
+                        <input type="text" class="form-control" id="nama_peminjam" name="nama_peminjam" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="unit" class="form-label">Unit</label>
+                        <input type="text" class="form-control" id="unit" name="unit" required>
+                    </div>
+                    <div class="mb-3">
                         <label for="keperluan" class="form-label">Keperluan</label>
                         <input type="text" class="form-control" id="keperluan" name="keperluan" required>
                     </div>

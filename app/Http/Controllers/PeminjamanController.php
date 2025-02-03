@@ -87,16 +87,22 @@ class PeminjamanController extends Controller
         }
     
         $request->validate([
+            'nama_peminjam' => 'required|string|max:255',
+            'unit' => 'required|string|max:255',
             'keperluan' => 'required|string|max:255',
             'tempat' => 'required|string|max:255',
             'tanggal' => 'required|date',
         ]);
     
+        $nama_peminjam = ucwords(strtolower($request->input('nama_peminjam')));
+        $unit = $request->input('unit');
         $keperluan = ucwords(strtolower($request->input('keperluan')));
         $tempat = ucwords(strtolower($request->input('tempat')));
         $tanggal = $request->input('tanggal');
     
         $peminjaman = Peminjaman::create([
+            'nama_peminjam' => $nama_peminjam,
+            'unit' => $unit,
             'keperluan' => $keperluan,
             'tempat' => $tempat,
             'tanggal_peminjaman' => $tanggal,
@@ -113,6 +119,7 @@ class PeminjamanController extends Controller
             foreach ($keranjang as $id => $jumlah) {
                 $barang = Barang::findOrFail($id);
                 $barang->stok -= $jumlah;
+                $barang->jumlah_keluar += $jumlah;
                 $barang->save();
     
                 Keranjang::create([
@@ -126,8 +133,9 @@ class PeminjamanController extends Controller
         
         session()->forget('keranjang');
     
-        return redirect('/riwayat')->with('success', 'Checkout berhasil!');
+        return redirect('/riwayat')->with('success', 'Barang berhasil dipinjam!');
     } 
+
     public function riwayat() {
         $peminjamans = Peminjaman::orderBy('tanggal_kembali', 'desc')->with('keranjang.barang')->get();
 
@@ -147,6 +155,7 @@ class PeminjamanController extends Controller
     foreach ($peminjaman->keranjang as $keranjang) {
         $barang = $keranjang->barang;
         $barang->stok += $keranjang->jumlah_peminjaman;
+        $barang->jumlah_keluar -= $keranjang->jumlah_peminjaman;
         $barang->save(); 
     }
 

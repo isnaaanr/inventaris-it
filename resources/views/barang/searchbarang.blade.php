@@ -4,6 +4,7 @@
         <th>Nama Barang</th>
         <th>Jenis</th>
         <th>Stok</th>
+        <th>Jumlah Keluar</th>
         <th>Aksi</th>
     </tr>
 </thead>
@@ -24,6 +25,7 @@
                 <p class="text-danger fw-bold">Kosong</p>
             @endif
         </td>
+        <td>{{ $item->jumlah_keluar }}</td>
         <td class="d-flex justify-content-center align-items-center">
             <div class="d-flex gap-2">
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ubahBarangModal{{ $item->id }}">

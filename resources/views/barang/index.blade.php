@@ -12,7 +12,7 @@
 
 <body>
     @include('partials.navbar')
-        <div id="layoutSidenav_content" class="ms-4">
+        <div id="layoutSidenav_content" class="ms-4 overflow-hidden">
             <main>
                 @if (session('success'))
                     <div class="alert alert-success w-auto me-4 mt-3 fade show d-flex justify-content-between">
@@ -29,6 +29,30 @@
             <div class="mt-3">
                 <h1><center>Daftar Barang</center></h1>
             </div>
+
+            @php
+                $totalBarang = \App\Models\Barang::sum('stok');
+                $totalKeluar = \App\Models\Barang::sum('jumlah_keluar');
+            @endphp
+            <div class="row d-flex justify-content-center text-center mt-3">
+                <div class="col-sm-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Jumlah Barang Tersedia</h5>
+                      <p class="card-text">{{ $totalBarang }} </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="card" onclick="window.location='{{ route('riwayat') }}'">
+                    <div class="card-body">
+                      <h5 class="card-title">Jumlah Barang Keluar</h5>
+                      <p class="card-text">{{ $totalKeluar }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             <button type="button" class="btn btn-primary mt-2 mb-2" data-bs-toggle="modal" data-bs-target="#tambahBarangModal">
                 <i class="fa-solid fa-plus"></i>
                 Tambah Barang
@@ -69,9 +93,6 @@
                 </div>
             </div>
            
-    
-        
-
             <div class="container-fluid">
                     <table class="table table-borderless text-center" id="datatablesSimple">
                         <thead>
@@ -80,6 +101,7 @@
                                 <th>Nama Barang</th>
                                 <th>Jenis</th>
                                 <th>Stok</th>
+                                <th>Jumlah Keluar</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -99,6 +121,7 @@
                                     <p class="text-danger fw-bold">Kosong</p>
                                 @endif
                             </td>
+                            <td>{{ $item->jumlah_keluar }}</td>
                             <td class="d-flex justify-content-center align-items-center">
                                 <div class="d-flex gap-2">
                                     
@@ -138,12 +161,13 @@
                             
                                                     <div class="mb-3">
                                                         <label for="jenis" class="form-label">Jenis</label>
-                                                        <select class="form-select" id="inputGroupSelect02" name="jenis">
-                                                          <option value="Laptop">Laptop</option>
-                                                          <option value="Kamera">Kamera</option>
+                                                        <select class="form-select" id="jenis" name="jenis">
+                                                            @foreach(['Laptop', 'Kamera'] as $jenis)
+                                                                <option value="{{ $jenis }}" {{ $item->jenis == $jenis ? 'selected' : '' }}>{{ $jenis }}</option>
+                                                            @endforeach
                                                         </select>
-                                                      </div>
-
+                                                    </div>
+                                                
                                                     <div class="mb-3">
                                                         <label for="stok" class="form-label">Stok</label>
                                                         <input type="number" class="form-control" id="stok" name="stok" required value="{{ $item->stok }}">

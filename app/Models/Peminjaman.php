@@ -9,7 +9,7 @@ class Peminjaman extends Model
     use HasFactory;
     protected $table = 'peminjaman';
 
-    protected $fillable = ['keperluan', 'tempat', 'tanggal_peminjaman', 'tanggal_kembali'];
+    protected $fillable = ['nama_peminjam', 'unit', 'keperluan', 'tempat', 'tanggal_peminjaman', 'tanggal_kembali'];
 
     
     public function keranjang()

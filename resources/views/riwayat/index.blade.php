@@ -58,6 +58,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <p><strong>Nama Peminjam:</strong> {{ $peminjaman->nama_peminjam }}</p>
+                        <p><strong>Unit:</strong> {{ $peminjaman->unit }}</p>
                         <p><strong>Keperluan:</strong> {{ $peminjaman->keperluan }}</p>
                         <p><strong>Tempat:</strong> {{ $peminjaman->tempat }}</p>
                         <p><strong>Tanggal Peminjaman:</strong> {{ $peminjaman->tanggal_peminjaman }}</p>
@@ -73,7 +75,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nama Barang</th>
-                                        <th>Jumlah Dipinjam</th>
+                                        <th>Jumlah</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -141,6 +143,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <p><strong>Nama Peminjam:</strong> {{ $peminjaman->nama_peminjam }}</p>
+                            <p><strong>Unit:</strong> {{ $peminjaman->unit }}</p>
                             <p><strong>Keperluan:</strong> {{ $peminjaman->keperluan }}</p>
                             <p><strong>Tempat:</strong> {{ $peminjaman->tempat }}</p> 
                             <p><strong>Tanggal Peminjaman:</strong> {{ $peminjaman->tanggal_peminjaman }}</p>
@@ -156,7 +160,7 @@
                                     <thead>
                                         <tr>
                                             <th>Nama Barang</th>
-                                            <th>Jumlah Dipinjam</th>
+                                            <th>Jumlah</th>
                                         </tr>
                                     </thead>
                                     <tbody>
