@@ -211,6 +211,11 @@
                             $('#namaBarang').val(selectedItem.text());
                             $('#barangId').val(selectedItem.data('id'));
                             $('#suggestionsBarang').empty().hide();
+                        } else if (!$('#barangId').val()) { // Jika tidak ada barang yang dipilih, coba memilih pertama yang cocok
+                            let firstSuggestion = suggestions.eq(0);
+                            $('#namaBarang').val(firstSuggestion.text());
+                            $('#barangId').val(firstSuggestion.data('id'));
+                            $('#suggestionsBarang').empty().hide();
                         }
                     }
                     suggestions.removeClass('active');
@@ -240,8 +245,11 @@
                 let barangId = $('#barangId').val();
 
                 if (!barangId) {
-                    alert('Silakan pilih barang dari daftar saran.');
-                    return;
+                    // Jangan tampilkan alert jika barang sudah dipilih melalui autocomplete
+                    if (namaBarang && $('#suggestionsBarang').is(':empty')) {
+                        alert('Silakan pilih barang dari daftar saran atau pilih dengan tombol enter.');
+                        return;
+                    }
                 }
 
                 $.ajax({
