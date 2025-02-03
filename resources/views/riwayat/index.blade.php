@@ -36,6 +36,8 @@
                                     <button type="button" class="text-gray-500 hover:text-gray-700 text-2xl px-4 py-2" onclick="closeModal('peminjamanModal{{ $peminjaman->id }}')">&times;</button>
                                 </div>
                                 <div class="p-6">
+                                    <p><strong>Nama Peminjam:</strong> {{ $peminjaman->nama_peminjam }}</p>
+                                    <p><strong>Unit:</strong> {{ $peminjaman->unit }}</p>
                                     <p><strong>Keperluan:</strong> {{ $peminjaman->keperluan }}</p>
                                     <p><strong>Tempat:</strong> {{ $peminjaman->tempat }}</p>
                                     <p><strong>Tanggal Peminjaman:</strong> {{ $peminjaman->tanggal_peminjaman }}</p>
@@ -120,6 +122,8 @@
                                     <button type="button" class="text-gray-500 hover:text-gray-700 text-2xl px-4 py-2" onclick="closeModal('peminjamanModal{{ $peminjaman->id }}')">&times;</button>
                                 </div>
                                 <div class="p-6">
+                                    <p><strong>Nama Peminjam:</strong> {{ $peminjaman->nama_peminjam }}</p>
+                                    <p><strong>Unit:</strong> {{ $peminjaman->unit }}</p>
                                     <p><strong>Keperluan:</strong> {{ $peminjaman->keperluan }}</p>
                                     <p><strong>Tempat:</strong> {{ $peminjaman->tempat }}</p>
                                     <p><strong>Tanggal Peminjaman:</strong> {{ $peminjaman->tanggal_peminjaman }}</p>

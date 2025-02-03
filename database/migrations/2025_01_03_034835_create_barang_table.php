@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama');   
             $table->string('jenis');  
             $table->bigInteger('stok')->unsigned();  
+            $table->bigInteger('jumlah_keluar')->unsigned()->default(0);
             $table->timestamps();  
         });
     }

@@ -50,6 +50,14 @@
                             <form action="{{ route('peminjaman.checkout') }}" method="POST" class="space-y-3">
                                 @csrf
                                 <div>
+                                    <label for="nama_peminjam" class="text-sm font-bold text-gray-700">Nama Peminjam</label>
+                                    <input type="text" class="w-full px-3 py-2 border border-gray-400 rounded-md text-sm font-medium" id="nama_peminjam" name="nama_peminjam" required>
+                                </div>
+                                <div>
+                                    <label for="unit" class="text-sm font-bold text-gray-700">Unit</label>
+                                    <input type="text" class="w-full px-3 py-2 border border-gray-400 rounded-md text-sm font-medium" id="unit" name="unit" required>
+                                </div>
+                                <div>
                                     <label for="keperluan" class="text-sm font-bold text-gray-700">Keperluan</label>
                                     <input type="text" class="w-full px-3 py-2 border border-gray-400 rounded-md text-sm font-medium" id="keperluan" name="keperluan" required>
                                 </div>

@@ -20,7 +20,8 @@ class BarangController extends Controller
         $search = $request->input('search');
         $data = Barang::where('nama', 'like', '%' . $search . '%')
                       ->orWhere('jenis', 'like', '%' . $search . '%')
-                      ->paginate($max_data);
+                      ->paginate($max_data)
+                      ->appends(['search' => $search]); // Menyimpan query di pagination
     
         return view('barang.index', compact('data'));
     }

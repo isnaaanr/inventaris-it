@@ -1,37 +1,67 @@
 <x-app-layout>
     <div class="flex flex-col min-h-screen">
     <main class="container mx-auto px-8 py-8 bg-white text-gray-800 flex-grow">
-        {{-- Tampilan Success --}}
-        @if (session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-                {{ session('success') }}
-                <button type="button" class="absolute top-0 right-0 px-4 py-3" onclick="this.parentElement.remove()">&times;</button>
+
+        {{-- <h1 class="text-center text-3xl font-bold m">Daftar Barang</h1> --}}
+
+        @php
+            $totalBarang = \App\Models\Barang::sum('stok');
+            $totalKeluar = \App\Models\Barang::sum('jumlah_keluar');
+        @endphp
+        
+        <div class="flex justify-center items-center mb-8 gap-8 px-6">
+            <!-- Card Jumlah Barang Tersedia -->
+            <div class="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-green-100 shadow-lg rounded-lg p-6 border border-green-300">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-check-circle text-green-600 text-3xl mr-4"></i>
+                    <h5 class="text-xl font-semibold text-gray-700">Jumlah Barang Tersedia</h5>
+                </div>
+                <p class="text-2xl font-bold text-gray-900 mb-4">{{ $totalBarang }} unit</p>
+                <p class="text-sm text-gray-600">Jumlah stok barang yang tersedia di gudang saat ini.</p>
             </div>
-        @endif
-
-        {{-- Tampilan Error --}}
-        @if ($errors->any())
-            <script>
-                alert("{{ session('errors')->first() }}");
-            </script>
-        @endif
-
-        <h1 class="text-center text-3xl font-bold m">Daftar Barang</h1>
+            
+            <!-- Card Jumlah Barang Keluar -->
+            <div class="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-red-100 shadow-lg rounded-lg p-6 border border-red-300">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-box-open text-red-600 text-3xl mr-4"></i>
+                    <h5 class="text-xl font-semibold text-gray-700">Jumlah Barang Keluar</h5>
+                </div>
+                <p class="text-2xl font-bold text-gray-900 mb-4">{{ $totalKeluar }} unit</p>
+                <p class="text-sm text-gray-600">Jumlah barang yang telah keluar dari gudang.</p>
+            </div>
+        </div>    
 
         <div class="flex justify-between items-center mb-4">
-            {{-- Form Pencarian --}}
-            <form action="{{ route('barang.search') }}" method="GET" class="flex items-center space-x-2">
-                <input type="text" name="search" class="border w-80 border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out" placeholder="Cari Barang..." value="{{ request('search') }}">
-                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out">
-                    Cari
-                </button>
-            </form>
-        
+
             {{-- Tombol Tambah Barang --}}
             <button type="button" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out" data-modal-target="#tambahBarangModal">
                 <i class="fa-solid fa-plus"></i> Tambah Barang
             </button>
+
+            {{-- Form Pencarian --}}
+            <form action="{{ route('barang.search') }}" method="GET" class="flex items-center space-x-2">
+                <input type="text" name="search" class="border w-full sm:w-80 border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out" placeholder="Cari Barang..." value="{{ request('search') }}">
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out">
+                    Cari
+                </button>
+            </form>
+
         </div>
+
+                {{-- Tampilan Success --}}
+                @if (session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+                    {{ session('success') }}
+                    <button type="button" class="absolute top-0 right-0 px-4 py-3" onclick="this.parentElement.remove()">&times;</button>
+                </div>
+            @endif
+    
+            {{-- Tampilan Error --}}
+            @if ($errors->any())
+                <script>
+                    alert("{{ session('errors')->first() }}");
+                </script>
+            @endif
         
         
 

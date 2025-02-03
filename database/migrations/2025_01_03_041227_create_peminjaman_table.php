@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('peminjaman', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_peminjam'); 
+            $table->string('unit');
             $table->string('keperluan'); 
             $table->string('tempat'); 
             $table->date('tanggal_peminjaman');
