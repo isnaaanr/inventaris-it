@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class BarangSeeder extends Seeder
 {
@@ -13,24 +14,21 @@ class BarangSeeder extends Seeder
      */
     public function run(): void
     {
-        $barang = [
-            ['nama' => 'Laptop Dell XPS', 'jenis' => 'Laptop', 'stok' => 10],
-            ['nama' => 'Laptop HP Envy', 'jenis' => 'Laptop', 'stok' => 8],
-            ['nama' => 'Kamera Canon EOS', 'jenis' => 'Kamera', 'stok' => 15],
-            ['nama' => 'Kamera Nikon D3500', 'jenis' => 'Kamera', 'stok' => 5],
-            ['nama' => 'Laptop Asus ZenBook', 'jenis' => 'Laptop', 'stok' => 7],
-            ['nama' => 'Kamera Sony Alpha', 'jenis' => 'Kamera', 'stok' => 12],
-            ['nama' => 'Kabel HDMI 2m', 'jenis' => 'Aksesoris', 'stok' => 20],
-            ['nama' => 'Kabel Ethernet Cat6', 'jenis' => 'Aksesoris', 'stok' => 25],
-            ['nama' => 'Wireless Mouse Logitech', 'jenis' => 'Aksesoris', 'stok' => 18],
-            ['nama' => 'Keyboard Mechanical Razer', 'jenis' => 'Aksesoris', 'stok' => 10],
-            ['nama' => 'Monitor LG UltraWide', 'jenis' => 'Monitor', 'stok' => 8],
-            ['nama' => 'Proyektor Epson', 'jenis' => 'Proyektor', 'stok' => 5],
-            ['nama' => 'Laptop Lenovo ThinkPad', 'jenis' => 'Laptop', 'stok' => 9],
-            ['nama' => 'Kabel USB Type-C', 'jenis' => 'Aksesoris', 'stok' => 30],
-            ['nama' => 'Power Bank Anker 20,000mAh', 'jenis' => 'Aksesoris', 'stok' => 15],
-        ];
+        $faker = Faker::create('id_ID'); // Menggunakan locale Indonesia
+        
+        $jenisBarang = ['Laptop', 'Kamera', 'Aksesoris', 'Monitor', 'Proyektor'];
+        
+        $data = [];
+        for ($i = 0; $i < 500; $i++) {
+            $data[] = [
+                'nama' => $faker->word . ' ' . $faker->randomElement(['Dell', 'HP', 'Canon', 'Nikon', 'Sony', 'Asus', 'LG', 'Epson', 'Lenovo', 'Logitech']),
+                'jenis' => $faker->randomElement($jenisBarang),
+                'stok' => $faker->numberBetween(1, 50),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
 
-        DB::table('barang')->insert($barang);
+        DB::table('barang')->insert($data);
     }
 }
