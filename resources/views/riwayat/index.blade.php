@@ -5,12 +5,12 @@
             <h1 class="text-center text-3xl font-semibold">Riwayat Peminjaman</h1>
         </div>
 
-        <ul class="flex space-x-4 mt-3 border-b-2">
+        <ul class="flex space-x-2 mt-3 border-b-2">
             <li>
-                <button class="text-blue-500 py-2 px-4 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" id="sedang-proses-tab" onclick="showSection('sedang-proses-section')">Sedang Proses</button>
+                <button class="text-blue-500 py-2 px-4 rounded-t-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" id="sedang-proses-tab" onclick="showSection('sedang-proses-section')">Sedang Proses</button>
             </li>
             <li>
-                <button class="text-blue-500 py-2 px-4 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" id="riwayat-tab2" onclick="showSection('riwayat-section')">Riwayat</button>
+                <button class="text-blue-500 py-2 px-4 rounded-t-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" id="riwayat-tab2" onclick="showSection('riwayat-section')">Riwayat</button>
             </li>
         </ul>        
 

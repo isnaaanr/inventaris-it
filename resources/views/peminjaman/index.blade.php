@@ -1,14 +1,14 @@
 <style>
 
     #suggestionsBarang .list-group-item.active {
-        background-color: #e0e0e0;  /* Bisa disesuaikan dengan warna yang diinginkan */
-        color: #333;  /* Warna teks lebih gelap untuk item yang dipilih */
+        background-color: #e0e0e0;
+        color: #333;
     }
     
 </style>
 
 <x-app-layout>
-    <div id="layoutSidenav_content" class="ms-4">
+    <div id="layoutSidenav_content" class="ms-4 mt-14">
         <main>
             @if (session('success'))
             <div class="bg-green-500 text-white px-4 py-2 rounded-md mb-3 flex justify-between items-center font-semibold max-w-md mx-auto shadow-md" role="alert">
@@ -37,7 +37,7 @@
                 <div class="grid grid-cols-3 gap-4">
                     <!-- Form Input -->
                     <div class="col-span-1 space-y-4">
-                        <div class="border-2 border-gray-400 rounded-lg p-5 bg-white">
+                        <div class="rounded-lg p-5 bg-white">
                             <h1 class="text-lg font-bold text-gray-800 text-center mb-3">Peminjaman Barang</h1>
                             <form id="addProductForm" class="space-y-3">
                                 <div>
@@ -54,7 +54,7 @@
                             </form>
                         </div>
     
-                        <div class="border-2 border-gray-400 rounded-lg p-5 bg-white">
+                        <div class="rounded-lg p-5 bg-white">
                             <h1 class="text-lg font-bold text-gray-800 text-center mb-3">Detail Peminjaman</h1>
                             <form action="{{ route('peminjaman.checkout') }}" method="POST" class="space-y-3">
                                 @csrf
@@ -84,18 +84,18 @@
                     </div>
     
                     <!-- Tabel Kanan -->
-                    <div class="col-span-2 h-full">
-                        <div class="border-2 border-gray-400 rounded-lg p-5 bg-white h-full">
+                    <div class="col-span-2">
+                        <div class="rounded-lg p-5 bg-white h-full">
 
                             <!-- Input Pencarian -->      
-                            <div class="flex justify-between items-center mb-4">
+                            <div class="flex justify-between items-center mb-3">
                                 <h1 class="text-lg font-semibold text-gray-800">Daftar Barang Dipinjam</h1>
                                 <input type="text" id="searchTable" 
                                     class="border w-72 border-gray-300 rounded-md p-2 text-sm focus:ring-1 focus:ring-blue-400 focus:border-blue-400 transition duration-150 ease-in-out text-center" 
                                     placeholder="Cari barang...">
                             </div>
                             
-                            <div class="overflow-y-auto max-h-[500px]">
+                            <div class="overflow-y-auto max-h-[650px]">
                                 <table class="min-w-full text-xs border border-gray-400 rounded-md" id="tabel-hasil">
                                     <thead class="bg-indigo-700 text-white">
                                         <tr>
@@ -158,7 +158,6 @@
 
     <script>
         $(document).ready(function() {
-            // Fungsi untuk melakukan pencarian di tabel
             function searchTable() {
                 let value = $('#searchTable').val().toLowerCase();
                 $('#tabel-hasil tbody tr').each(function() {
@@ -179,12 +178,10 @@
                 }
             }
     
-            // Pencarian barang di tabel
             $('#searchTable').on('keyup', function() {
                 searchTable();
             });
     
-            // Autocomplete barang
             let selectedIndex = -1;
             $('#namaBarang').on('input', function() {
                 $('#barangId').val('');
@@ -208,7 +205,6 @@
                 }
             });
     
-            // Navigasi keyboard di autocomplete
             $('#namaBarang').on('keydown', function(e) {
                 let suggestions = $('#suggestionsBarang .list-group-item');
                 if (suggestions.length > 0) {
@@ -258,21 +254,18 @@
                 }
             }
     
-            // Pilih barang dari autocomplete
             $(document).on('click', '.list-group-item', function() {
                 $('#namaBarang').val($(this).text());
                 $('#barangId').val($(this).data('id'));
                 $('#suggestionsBarang').empty().hide();
             });
     
-            // Sembunyikan autocomplete saat klik di luar
             $(document).on('click', function(e) {
                 if (!$(e.target).closest('#namaBarang, #suggestionsBarang').length) {
                     $('#suggestionsBarang').hide();
                 }
             });
     
-            // Submit form tambah barang
             $('#addProductForm').submit(function(event) {
                 event.preventDefault();
                 let namaBarang = $('#namaBarang').val();
@@ -280,7 +273,6 @@
                 let barangId = $('#barangId').val();
     
                 if (!barangId) {
-                    // Jangan tampilkan alert jika barang sudah dipilih melalui autocomplete
                     if (namaBarang && $('#suggestionsBarang').is(':empty')) {
                         alert('Silakan pilih barang dari daftar saran atau pilih dengan tombol enter.');
                         return;
@@ -329,7 +321,6 @@
                             $('#suggestionsBarang').empty();
                             $('#tabel-hasil tbody').find('tr:contains("Tidak ada item")').remove();
     
-                            // Panggil fungsi pencarian setelah menambahkan data baru
                             searchTable();
                         } else {
                             alert(response.message);

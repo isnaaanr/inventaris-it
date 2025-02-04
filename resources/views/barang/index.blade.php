@@ -2,7 +2,6 @@
     <div class="flex flex-col min-h-screen">
     <main class="container mx-auto px-8 py-8 bg-white text-gray-800 flex-grow">
 
-        {{-- <h1 class="text-center text-3xl font-bold m">Daftar Barang</h1> --}}
 
         @php
             $totalBarang = \App\Models\Barang::sum('stok');
