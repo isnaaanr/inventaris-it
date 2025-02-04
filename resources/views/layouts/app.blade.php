@@ -36,12 +36,12 @@
             
                         <!-- Navigation Links -->
                         <div class="hidden md:flex space-x-6">
-                            <a href="{{ route('dashboard') }}" class="flex items-center gap-2 text-white hover:text-yellow-400 transition-all duration-300 ease-in-out transform hover:scale-105">
+                            {{-- <a href="{{ route('dashboard') }}" class="flex items-center gap-2 text-white hover:text-yellow-400 transition-all duration-300 ease-in-out transform hover:scale-105">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h11M9 21V3m4 10h4m-4 6h4" />
                                 </svg>
                                 Dashboard
-                            </a>
+                            </a> --}}
                             @if(Route::has('barang'))
                             <a href="{{ route('barang') }}" class="flex items-center gap-2 text-white hover:text-yellow-400 transition-all duration-300 ease-in-out transform hover:scale-105">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

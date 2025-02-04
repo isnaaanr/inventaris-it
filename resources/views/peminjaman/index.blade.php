@@ -1,3 +1,12 @@
+<style>
+
+    #suggestionsBarang .list-group-item.active {
+        background-color: #e0e0e0;  /* Bisa disesuaikan dengan warna yang diinginkan */
+        color: #333;  /* Warna teks lebih gelap untuk item yang dipilih */
+    }
+    
+</style>
+
 <x-app-layout>
     <div id="layoutSidenav_content" class="ms-4">
         <main>
@@ -201,9 +210,11 @@
                     if (e.key === 'ArrowDown') {
                         e.preventDefault();
                         selectedIndex = (selectedIndex + 1) % suggestions.length;
+                        scrollToSelected();
                     } else if (e.key === 'ArrowUp') {
                         e.preventDefault();
                         selectedIndex = (selectedIndex - 1 + suggestions.length) % suggestions.length;
+                        scrollToSelected();
                     } else if (e.key === 'Enter') {
                         e.preventDefault();
                         if (selectedIndex > -1) {
@@ -211,7 +222,7 @@
                             $('#namaBarang').val(selectedItem.text());
                             $('#barangId').val(selectedItem.data('id'));
                             $('#suggestionsBarang').empty().hide();
-                        } else if (!$('#barangId').val()) { // Jika tidak ada barang yang dipilih, coba memilih pertama yang cocok
+                        } else if (!$('#barangId').val()) {
                             let firstSuggestion = suggestions.eq(0);
                             $('#namaBarang').val(firstSuggestion.text());
                             $('#barangId').val(firstSuggestion.data('id'));
@@ -222,6 +233,25 @@
                     if (selectedIndex > -1) suggestions.eq(selectedIndex).addClass('active');
                 }
             });
+
+            function scrollToSelected() {
+                let suggestions = $('#suggestionsBarang .list-group-item');
+                if (selectedIndex > -1) {
+                    let selectedItem = suggestions.eq(selectedIndex);
+                    let container = $('#suggestionsBarang');
+                    let offset = selectedItem.offset().top - container.offset().top;
+                    let containerHeight = container.height();
+
+                    // Scroll ke bawah jika item lebih rendah dari tampilan
+                    if (offset + selectedItem.outerHeight() > containerHeight) {
+                        container.scrollTop(container.scrollTop() + selectedItem.outerHeight());
+                    }
+                    // Scroll ke atas jika item lebih tinggi dari tampilan
+                    if (offset < 0) {
+                        container.scrollTop(container.scrollTop() + offset);
+                    }
+                }
+            }
 
             // Pilih barang dari autocomplete
             $(document).on('click', '.list-group-item', function() {
