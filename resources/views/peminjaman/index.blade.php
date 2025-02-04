@@ -158,15 +158,15 @@
 
     <script>
         $(document).ready(function() {
-            // Pencarian barang di tabel
-            $('#searchTable').on('keyup', function() {
-                let value = $(this).val().toLowerCase();
+            // Fungsi untuk melakukan pencarian di tabel
+            function searchTable() {
+                let value = $('#searchTable').val().toLowerCase();
                 $('#tabel-hasil tbody tr').each(function() {
                     let namaBarang = $(this).find('.nama-barang').text().toLowerCase();
                     let jenisBarang = $(this).find('.jenis-barang').text().toLowerCase();
                     $(this).toggle(namaBarang.includes(value) || jenisBarang.includes(value));
                 });
-
+    
                 let visibleRows = $('#tabel-hasil tbody tr:visible').length;
                 if (visibleRows === 0) {
                     if ($('#no-results').length === 0) {
@@ -177,8 +177,13 @@
                 } else {
                     $('#no-results').remove();
                 }
+            }
+    
+            // Pencarian barang di tabel
+            $('#searchTable').on('keyup', function() {
+                searchTable();
             });
-
+    
             // Autocomplete barang
             let selectedIndex = -1;
             $('#namaBarang').on('input', function() {
@@ -202,7 +207,7 @@
                     $('#suggestionsBarang').empty().hide();
                 }
             });
-
+    
             // Navigasi keyboard di autocomplete
             $('#namaBarang').on('keydown', function(e) {
                 let suggestions = $('#suggestionsBarang .list-group-item');
@@ -233,7 +238,7 @@
                     if (selectedIndex > -1) suggestions.eq(selectedIndex).addClass('active');
                 }
             });
-
+    
             function scrollToSelected() {
                 let suggestions = $('#suggestionsBarang .list-group-item');
                 if (selectedIndex > -1) {
@@ -241,7 +246,7 @@
                     let container = $('#suggestionsBarang');
                     let offset = selectedItem.offset().top - container.offset().top;
                     let containerHeight = container.height();
-
+    
                     // Scroll ke bawah jika item lebih rendah dari tampilan
                     if (offset + selectedItem.outerHeight() > containerHeight) {
                         container.scrollTop(container.scrollTop() + selectedItem.outerHeight());
@@ -252,28 +257,28 @@
                     }
                 }
             }
-
+    
             // Pilih barang dari autocomplete
             $(document).on('click', '.list-group-item', function() {
                 $('#namaBarang').val($(this).text());
                 $('#barangId').val($(this).data('id'));
                 $('#suggestionsBarang').empty().hide();
             });
-
+    
             // Sembunyikan autocomplete saat klik di luar
             $(document).on('click', function(e) {
                 if (!$(e.target).closest('#namaBarang, #suggestionsBarang').length) {
                     $('#suggestionsBarang').hide();
                 }
             });
-
+    
             // Submit form tambah barang
             $('#addProductForm').submit(function(event) {
                 event.preventDefault();
                 let namaBarang = $('#namaBarang').val();
                 let jumlahBarang = $('#jumlahBarang').val();
                 let barangId = $('#barangId').val();
-
+    
                 if (!barangId) {
                     // Jangan tampilkan alert jika barang sudah dipilih melalui autocomplete
                     if (namaBarang && $('#suggestionsBarang').is(':empty')) {
@@ -281,7 +286,7 @@
                         return;
                     }
                 }
-
+    
                 $.ajax({
                     url: '/peminjaman/add/' + namaBarang,
                     type: 'POST',
@@ -295,7 +300,7 @@
                             let existingRow = $('#tabel-hasil tbody tr').filter(function() {
                                 return $(this).find('td:eq(1)').text() === response.namaBarang;
                             });
-
+    
                             if (existingRow.length > 0) {
                                 let currentJumlah = parseInt(existingRow.find('td:eq(3) input').val()) || 0;
                                 existingRow.find('td:eq(3) input').val(currentJumlah + parseInt(response.jumlahBarang));
@@ -303,8 +308,8 @@
                                 let newRow = `
                                     <tr id="row-${response.id}" class="border-b">
                                         <td class="px-4 py-2 text-center">${response.itemNo}</td>
-                                        <td class="px-4 py-2 text-center">${response.namaBarang}</td>
-                                        <td class="px-4 py-2 text-center">${response.jenis}</td>
+                                        <td class="px-4 py-2 text-center nama-barang">${response.namaBarang}</td>
+                                        <td class="px-4 py-2 text-center jenis-barang">${response.jenis}</td>
                                         <td class="px-4 py-2 text-center">
                                             <input type="number" value="${response.jumlahBarang}" min="1" onchange="updateJumlah(${response.id}, this.value)" class="w-16 px-2 py-1 border border-gray-400 rounded-md text-xs font-medium">
                                         </td>
@@ -319,10 +324,13 @@
                                 `;
                                 $('#tabel-hasil tbody').append(newRow);
                             }
-
+    
                             $('#namaBarang, #jumlahBarang').val('');
                             $('#suggestionsBarang').empty();
                             $('#tabel-hasil tbody').find('tr:contains("Tidak ada item")').remove();
+    
+                            // Panggil fungsi pencarian setelah menambahkan data baru
+                            searchTable();
                         } else {
                             alert(response.message);
                         }
@@ -333,7 +341,7 @@
                 });
             });
         });
-
+    
         function updateJumlah(id, jumlah) {
             if (jumlah < 1) {
                 alert('Jumlah barang harus minimal 1.');
@@ -359,7 +367,4 @@
                 alert('Terjadi kesalahan saat memperbarui jumlah barang.');
             });
         }
-
-
-        
     </script>
