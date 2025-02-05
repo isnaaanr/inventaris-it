@@ -1,13 +1,12 @@
-<style>
-
-    #suggestionsBarang .list-group-item.active {
-        background-color: #e0e0e0;
-        color: #333;
-    }
-    
-</style>
-
 <x-app-layout>
+
+    <style>
+        #suggestionsBarang .list-group-item.active {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+    </style>
+
     <div id="layoutSidenav_content" class="ms-4 mt-14">
         <main>
             @if (session('success'))
@@ -91,7 +90,7 @@
                             <div class="flex justify-between items-center mb-3">
                                 <h1 class="text-lg font-semibold text-gray-800">Daftar Barang Dipinjam</h1>
                                 <input type="text" id="searchTable" 
-                                    class="border w-72 border-gray-300 rounded-md p-2 text-sm focus:ring-1 focus:ring-blue-400 focus:border-blue-400 transition duration-150 ease-in-out text-center" 
+                                    class="border w-72 border-gray-300 rounded-md p-2 text-sm focus:ring-1 focus:ring-blue-400 focus:border-blue-400 transition duration-150 ease-in-out" 
                                     placeholder="Cari barang...">
                             </div>
                             

@@ -1,5 +1,18 @@
 <x-app-layout>
 
+    <style>
+
+        .peminjaman-item {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: block; /* Default: tampilkan semua item */
+        }
+        .peminjaman-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
+
     <div class="container mx-auto px-4 py-4">
         <div class="mt-3">
             <h1 class="text-center text-3xl font-semibold">Riwayat Peminjaman</h1>

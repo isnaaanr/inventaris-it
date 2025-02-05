@@ -3,15 +3,15 @@
 
         <!-- Parallax Effect Background SVG -->
         <div class="absolute inset-0 overflow-hidden blur-3xl">
-            <svg class="absolute top-0 left-0 w-full h-full text-gray-500" viewBox="0 0 1463 678" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="absolute top-0 left-0 w-full h-full text-yellow-500" viewBox="0 0 1463 678" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill="url(#d1e554d4-7f5e-4a4d-b7e4-bc6b431b0d1c)" fill-opacity=".3" d="M-28.45 318.029C-28.45 318.029 74.74 438.588 318.18 482.485C561.62 526.382 742.27 367.2 942.27 412.857C1142.27 458.515 1245.98 580.019 1463 600.005C1463 600.005 1450.66 201.56 1243.02 144.473C1035.38 87.3873 859.58 173.678 798.868 287.64C738.157 401.601 833.233 487.248 742.27 505.366C651.307 523.484 523.876 451.771 417.39 398.549C310.905 345.326 162.627 302.035 0 258.789L-28.45 318.029Z" />
                 <defs>
                     <linearGradient id="d1e554d4-7f5e-4a4d-b7e4-bc6b431b0d1c" x1="1.21209" x2="1.91299" y1="0.2" y2="1" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="#FF00A3" />
-                        <stop offset="100%" stop-color="#5800FF" />
+                        <stop offset="0%" stop-color="#FFD700" />
+                        <stop offset="100%" stop-color="#FFEA00" />
                     </linearGradient>
                 </defs>
-            </svg>
+            </svg>            
         </div>
 
         <!-- Form Area -->
