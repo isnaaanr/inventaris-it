@@ -5,6 +5,11 @@
             <h1 class="text-center text-3xl font-semibold">Riwayat Peminjaman</h1>
         </div>
 
+        <!-- Input Search -->
+        <div class="mt-4 flex justify-center">
+            <input type="text" id="searchInput" placeholder="Cari berdasarkan nama, unit, atau keperluan..." class="w-full max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+
         <ul class="flex space-x-2 mt-3 border-b-2">
             <li>
                 <button class="text-blue-500 py-2 px-4 rounded-t-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" id="sedang-proses-tab" onclick="showSection('sedang-proses-section')">Sedang Proses</button>
@@ -20,9 +25,9 @@
             @if($peminjamans->where('tanggal_kembali', null)->isEmpty())
                 <p class="text-red-500">Tidak ada peminjaman yang sedang berjalan.</p>
             @else
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="sedang-proses-list">
                     @foreach($peminjamans->where('tanggal_kembali', null) as $peminjaman)
-                        <div class="bg-white shadow-lg rounded-lg p-4 cursor-pointer border border-gray-300 hover:border-blue-500 transition duration-300 ease-in-out" onclick="openModal('peminjamanModal{{ $peminjaman->id }}')">
+                        <div class="peminjaman-item bg-white shadow-lg rounded-lg p-4 cursor-pointer border border-gray-300 hover:border-blue-500 transition duration-300 ease-in-out" data-search="{{ strtolower($peminjaman->nama_peminjam . ' ' . $peminjaman->unit . ' ' . $peminjaman->keperluan) }}" onclick="openModal('peminjamanModal{{ $peminjaman->id }}')">
                             <h5 class="text-xl font-bold">{{ $peminjaman->keperluan }}</h5>
                             <p class="text-gray-600">Tanggal Peminjaman: {{ $peminjaman->tanggal_peminjaman }}</p>
                             <p class="text-red-500 font-bold">Belum Dikembalikan</p>
@@ -94,9 +99,9 @@
             @if($peminjamans->where('tanggal_kembali', '!=', null)->isEmpty())
                 <p class="text-red-500">Tidak ada riwayat peminjaman.</p>
             @else
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="riwayat-list">
                     @foreach($peminjamans->where('tanggal_kembali', '!=', null) as $peminjaman)
-                        <div class="bg-white shadow-lg rounded-lg p-4 border border-gray-300 hover:border-blue-500 transition duration-300 ease-in-out">
+                        <div class="peminjaman-item bg-white shadow-lg rounded-lg p-4 border border-gray-300 hover:border-blue-500 transition duration-300 ease-in-out" data-search="{{ strtolower($peminjaman->nama_peminjam . ' ' . $peminjaman->unit . ' ' . $peminjaman->keperluan) }}">
                             <h5 class="text-xl font-bold">{{ $peminjaman->keperluan }}</h5>
                             <p class="text-gray-600">Tanggal Peminjaman: {{ $peminjaman->tanggal_peminjaman }}</p>
                             <p class="text-gray-600">Tanggal Kembali: {{ $peminjaman->tanggal_kembali }}</p>
@@ -190,6 +195,23 @@
         function closeModal(id) {
             document.getElementById(id).classList.add('hidden');
         }
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchQuery = this.value.trim().toLowerCase();
+            const sections = ['sedang-proses-section', 'riwayat-section'];
+
+            sections.forEach(section => {
+                const items = document.querySelectorAll(`#${section} .peminjaman-item`);
+                items.forEach(item => {
+                    const searchText = item.getAttribute('data-search');
+                    if (searchText.includes(searchQuery)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
     </script>
 
 </x-app-layout>
