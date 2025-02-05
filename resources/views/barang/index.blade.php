@@ -187,12 +187,12 @@
                         @endforelse
                     </tbody>
                 </table>
-            <div class="me-5 mt-4">{{ $data->links() }}</div>
+            <div class="mt-4 mb-4">{{ $data->links() }}</div>
         </div>
     </main>
         
             <footer>
-                <div class="container-fluid px-4">
+                <div class="container-fluid px-4 mb-4">
                     <div class="d-flex align-items-center justify-content-between small">
                         <div class="text-muted">Copyright &copy; Your Website 2023</div>
                         <div>
@@ -222,6 +222,10 @@
         $('#search').on('keyup', function() {
             let query = $(this).val(); 
 
+            if (query === "") {
+                    window.location.reload(); 
+                    return;
+                }
             $.ajax({
                 url: '{{ route('barang.search') }}',  
                 method: 'GET',  

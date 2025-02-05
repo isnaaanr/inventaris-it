@@ -9,9 +9,8 @@ class BarangController extends Controller
 {
     public function index()
     {
-        $max_data = 5;
 
-        $data = Barang::paginate($max_data);  
+        $data = Barang::paginate(5);  
 
 
         return view('barang.index', compact('data'));
