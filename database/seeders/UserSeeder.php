@@ -17,9 +17,9 @@ class UserSeeder extends Seeder
         // Buat 5 user dummy
         $users = [
             [
-                'name' => 'John Doe',
-                'email' => 'john.doe@example.com',
-                'password' => Hash::make('password123'),
+                'name' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('admin123'),
                 'remember_token' => Str::random(10),
             ],
             [

@@ -157,6 +157,7 @@
 
     <script>
         $(document).ready(function() {
+        
             function searchTable() {
                 let value = $('#searchTable').val().toLowerCase();
                 $('#tabel-hasil tbody tr').each(function() {
